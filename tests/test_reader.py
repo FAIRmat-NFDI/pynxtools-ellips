@@ -12,14 +12,15 @@ from pynxtools.dataconverter.helpers import (
 )
 from pynxtools.dataconverter.template import Template
 from pynxtools.definitions.dev_tools.utils.nxdl_utils import get_nexus_definitions_path
-from pynxtools_ellips.reader import ELLIPSReader
+
+from pynxtools_ellips.reader import EllipsometryReader
 
 
 def test_example_data():
     """
     Test the example data for the stm reader
     """
-    reader = ELLIPSReader
+    reader = EllipsometryReader
     assert callable(reader.read)
 
     def_dir = get_nexus_definitions_path()

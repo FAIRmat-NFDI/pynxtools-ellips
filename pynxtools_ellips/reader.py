@@ -429,9 +429,9 @@ class EllipsometryReader(BaseReader):
                 # using a proper unit parsing logic
                 template[f"/ENTRY[entry]/plot/DATA[{key}]/@units"] = "degree"
                 if dindx == 0 and index == 0:
-                    template[
-                        f"/ENTRY[entry]/plot/DATA[{key}]/@long_name"
-                    ] = f"{plot_name} (degree)"
+                    template[f"/ENTRY[entry]/plot/DATA[{key}]/@long_name"] = (
+                        f"{plot_name} (degree)"
+                    )
                 template[f"/ENTRY[entry]/plot/DATA[{key}_errors]"] = {
                     "link": "/entry/data_collection/data_error",
                     "shape": np.index_exp[index, dindx, :],
@@ -462,9 +462,9 @@ class EllipsometryReader(BaseReader):
             template["/ENTRY[entry]/program_name/@version"] = version("pynxtools")
         except PackageNotFoundError:
             pass
-        template[
-            "/ENTRY[entry]/program_name/@url"
-        ] = "https://github.com/FAIRmat-NFDI/pynxtools"
+        template["/ENTRY[entry]/program_name/@url"] = (
+            "https://github.com/FAIRmat-NFDI/pynxtools"
+        )
 
         return template
 

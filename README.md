@@ -30,7 +30,7 @@ within the field of ellipsometry into a standardized representation using the
 [NeXus](https://www.nexusformat.org/) application definition [NXellipsometry](https://fairmat-nfdi.github.io/nexus_definitions/classes/contributed_definitions/NXellipsometry.html#nxellipsometry).
 
 ## Docs
-Extensive documentation of this pynxtools plugin is available [here](fairmat-nfdi.github.io/pynxtools-ellips/). You can find information about getting started, how-to guides, the supported file formats, how to get involved, and much more there.
+Extensive documentation of this pynxtools plugin is available [here](https://fairmat-nfdi.github.io/pynxtools-ellips/). You can find information about getting started, how-to guides, the supported file formats, how to get involved, and much more there.
 
 ## Contact person in FAIRmat for this reader
 Ron Hildebrandt

@@ -6,11 +6,11 @@ build-backend = "setuptools.build_meta"
 name = "pynxtools-ellips"
 dynamic = ["version"]
 authors = [
-    { name = "Ron Hildebrandt, Carola Emminger, Tamás Haraszti, Chris Sturm", email = "ron.hildebrandt(at)physik.hu-berlin.de" },
+    { name = "The NOMAD Authors" },
 ]
-description = "ToDo"
+description = "A reader for transferring ellipsometry data from vendor formats to NeXus and NOMAD."
 readme = "README.md"
-license= {text = "Apache-2.0"}
+license= { file = "LICENSE" }
 requires-python = ">=3.8"
 classifiers = [
     "Programming Language :: Python :: 3.8",
@@ -25,6 +25,12 @@ dependencies = [
     "pynxtools>=0.2.1"
 ]
 
+[project.entry-points."pynxtools.reader"]
+ellips = "pynxtools_ellips.reader:ELLIPSReader"
+
+[project.urls]
+"Homepage" = "https://github.com/FAIRmat-NFDI/pynxtools-ellips"
+"Bug Tracker" = "https://github.com/FAIRmat-NFDI/pynxtools-ellips/issues"
 [project.optional-dependencies]
 dev = [
     "mypy",
@@ -34,9 +40,12 @@ dev = [
     "pip-tools",
     "pre-commit",
 ]
-
-[project.entry-points."pynxtools.reader"]
-ellips = "pynxtools_ellips.reader:ELLIPSReader"
+docs = [
+    "mkdocs",
+    "mkdocs-material",
+    "mkdocs-material-extensions",
+    "mkdocs-macros-plugin",
+]
 
 [tool.setuptools_scm]
 version_scheme = "no-guess-dev"

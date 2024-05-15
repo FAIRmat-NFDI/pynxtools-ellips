@@ -37,7 +37,6 @@ DEFAULT_HEADER = {"sep": "\t", "skip": 0}
 
 CONVERT_DICT = {
     "unit": "@units",
-    "Beam_path": "BEAM_PATH[beam_path]",
     "Detector": "DETECTOR[detector]",
     "Data": "data_collection",
     "Derived_parameters": "derived_parameters",
@@ -52,8 +51,18 @@ CONVERT_DICT = {
     "data_error": "data_collection/data_error",
     "depolarization": "derived_parameters/depolarization",
     "measured_data": "data_collection/measured_data",
-    "software": "software/program",
-    "data_software": "data_software/program",
+    "data_software": "software_TYPE[data_software]/program",
+    "experiment_identifier/identifier":"IDENTIFIER[experiment_identifier]/IDENTIFIER[identifier]",
+    "experiment_identifier/is_persistent":"IDENTIFIER[experiment_identifier]/IS_PERSISTENT[is_persistent]",
+    "software_RC2": "software_TYPE[software_RC2]/program",
+    "software_RC2/@url": "software_TYPE[software_RC2]/program/@url",
+    "software_RC2/@version": "software_TYPE[software_RC2]/program/@version",
+    "instrument_calibration_RC2": "instrument_calibration_DEVICE[instrument_calibration_RC2]/calibration_status",
+    "instrument_calibration_RC2/calibration_status": "instrument_calibration_DEVICE[instrument_calibration_RC2]/calibration_status",
+    "environment": "ENVIRONMENT[environment_sample]",
+    "history/notes": "HISTORY[history]/notes",
+    "light_source" : "source_TYPE[source_light]", 
+    "source_type" : "type",
 }
 
 CONFIG_KEYS = [
@@ -70,8 +79,7 @@ CONFIG_KEYS = [
 ]
 
 REPLACE_NESTED = {
-    "Instrument/Beam_path": "INSTRUMENT[instrument]/BEAM_PATH[beam_path]",
-    "Env_Conditions": "INSTRUMENT[instrument]/sample_stage/environment_conditions",
+    "Inc_Det_Angles": "INSTRUMENT[instrument]",
     "Instrument": "INSTRUMENT[instrument]",
 }
 
@@ -347,15 +355,11 @@ class EllipsometryReader(BaseReader):
         )
 
         def write_scan_axis(name: str, values: list, units: str):
-            base_path = f"Env_Conditions/PARAMETER[{name}]"
-            header[f"{base_path}/values"] = values
-            header[f"{base_path}/values/@units"] = units
-            header[f"{base_path}/number_of_parameters"] = len(values)
-            header[f"{base_path}/number_of_parameters/@units"] = ""
-            header[f"{base_path}/parameter_type"] = name
+            base_path = f"Inc_Det_Angles/PARAMETER[{name}]"
+            header[f"{base_path}"] = values
+            header[f"{base_path}/@units"] = units
 
-        header["Instrument/angle_of_incidence"] = unique_angles
-        for axis in ["detection_angle", "incident_angle"]:
+        for axis in ["angle_of_detection", "angle_of_incidence"]:
             write_scan_axis(axis, unique_angles, "degree")
 
         # Create mocked ellipsometry data template:
@@ -409,7 +413,7 @@ class EllipsometryReader(BaseReader):
         # because test-data.data has improper units like Angstroms or degrees
         # the fix above prevents that these incorrect units are get just blindly carried
         # over into the nxs file and thus causing nomas to fail
-        template[f"/ENTRY[entry]/plot/AXISNAME[{spectrum_type}]"] = {
+        template[f"/ENTRY[entry]/data_collection/AXISNAME[{spectrum_type}]"] = {
             "link": f"/entry/data_collection/{spectrum_type}_spectrum"
         }
         template[
@@ -421,18 +425,18 @@ class EllipsometryReader(BaseReader):
         plot_name = header["plot_name"]
         for dindx in range(0, len(labels.keys())):
             for index, key in enumerate(data_list[dindx]):
-                template[f"/ENTRY[entry]/plot/DATA[{key}]"] = {
+                template[f"/ENTRY[entry]/data_collection/DATA[{key}]"] = {
                     "link": "/entry/data_collection/measured_data",
                     "shape": np.index_exp[index, dindx, :],
                 }
                 # MK:: Carola, Ron, Flo, Tamas, Sandor refactor the following line
                 # using a proper unit parsing logic
-                template[f"/ENTRY[entry]/plot/DATA[{key}]/@units"] = "degree"
+                template[f"/ENTRY[entry]/data_collection/DATA[{key}]/@units"] = "degree"
                 if dindx == 0 and index == 0:
-                    template[f"/ENTRY[entry]/plot/DATA[{key}]/@long_name"] = (
+                    template[f"/ENTRY[entry]/data_collection/DATA[{key}]/@long_name"] = (
                         f"{plot_name} (degree)"
                     )
-                template[f"/ENTRY[entry]/plot/DATA[{key}_errors]"] = {
+                template[f"/ENTRY[entry]/data_collection/DATA[{key}_errors]"] = {
                     "link": "/entry/data_collection/data_error",
                     "shape": np.index_exp[index, dindx, :],
                 }
@@ -441,15 +445,15 @@ class EllipsometryReader(BaseReader):
 
         # Define default plot showing Psi and Delta at all angles:
         template["/@default"] = "entry"
-        template["/ENTRY[entry]/@default"] = "plot"
-        template["/ENTRY[entry]/plot/@signal"] = f"{data_list[0][0]}"
-        template["/ENTRY[entry]/plot/@axes"] = spectrum_type
-        template["/ENTRY[entry]/plot/title"] = plot_name
+        template["/ENTRY[entry]/@default"] = "data_collection"
+        template["/ENTRY[entry]/data_collection/@signal"] = f"{data_list[0][0]}"
+        template["/ENTRY[entry]/data_collection/@axes"] = spectrum_type
+        template["/ENTRY[entry]/data_collection/title"] = plot_name
 
         # if len(data_list[0]) > 1:
-        template["/ENTRY[entry]/plot/@auxiliary_signals"] = data_list[0][1:]
+        template["/ENTRY[entry]/data_collection/@auxiliary_signals"] = data_list[0][1:]
         for index in range(1, len(data_list)):
-            template["/ENTRY[entry]/plot/@auxiliary_signals"] += data_list[index]
+            template["/ENTRY[entry]/data_collection/@auxiliary_signals"] += data_list[index]
 
         template["/ENTRY[entry]/definition"] = "NXellipsometry"
         template["/ENTRY[entry]/definition/@url"] = (
@@ -457,12 +461,12 @@ class EllipsometryReader(BaseReader):
             f"blob/{get_nexus_version_hash()}/contributed_definitions/NXellipsometry.nxdl.xml"
         )
         template["/ENTRY[entry]/definition/@version"] = get_nexus_version()
-        template["/ENTRY[entry]/program_name"] = "pynxtools"
+        template["/ENTRY[entry]/INSTRUMENT[instrument]/software_TYPE[software_NeXuS]/program"] = "pynxtools"
         try:
-            template["/ENTRY[entry]/program_name/@version"] = version("pynxtools")
+            template["/ENTRY[entry]/INSTRUMENT[instrument]/software_TYPE[software_NeXuS]/program/@version"] = version("pynxtools")
         except PackageNotFoundError:
             pass
-        template["/ENTRY[entry]/program_name/@url"] = (
+        template["/ENTRY[entry]/INSTRUMENT[instrument]/software_TYPE[software_NeXuS]/program/@url"] = (
             "https://github.com/FAIRmat-NFDI/pynxtools"
         )
 

@@ -52,8 +52,8 @@ CONVERT_DICT = {
     "depolarization": "derived_parameters/depolarization",
     "measured_data": "data_collection/measured_data",
     "data_software": "software_TYPE[data_software]/program",
-    "experiment_identifier/identifier":"IDENTIFIER[experiment_identifier]/IDENTIFIER[identifier]",
-    "experiment_identifier/is_persistent":"IDENTIFIER[experiment_identifier]/IS_PERSISTENT[is_persistent]",
+    "experiment_identifier/identifier": "IDENTIFIER[experiment_identifier]/IDENTIFIER[identifier]",
+    "experiment_identifier/is_persistent": "IDENTIFIER[experiment_identifier]/IS_PERSISTENT[is_persistent]",
     "software_RC2": "software_TYPE[software_RC2]/program",
     "software_RC2/@url": "software_TYPE[software_RC2]/program/@url",
     "software_RC2/@version": "software_TYPE[software_RC2]/program/@version",
@@ -61,8 +61,8 @@ CONVERT_DICT = {
     "instrument_calibration_RC2/calibration_status": "instrument_calibration_DEVICE[instrument_calibration_RC2]/calibration_status",
     "environment": "ENVIRONMENT[environment_sample]",
     "history/notes": "HISTORY[history]/notes",
-    "light_source" : "source_TYPE[source_light]", 
-    "source_type" : "type",
+    "light_source": "source_TYPE[source_light]",
+    "source_type": "type",
 }
 
 CONFIG_KEYS = [
@@ -433,9 +433,9 @@ class EllipsometryReader(BaseReader):
                 # using a proper unit parsing logic
                 template[f"/ENTRY[entry]/data_collection/DATA[{key}]/@units"] = "degree"
                 if dindx == 0 and index == 0:
-                    template[f"/ENTRY[entry]/data_collection/DATA[{key}]/@long_name"] = (
-                        f"{plot_name} (degree)"
-                    )
+                    template[
+                        f"/ENTRY[entry]/data_collection/DATA[{key}]/@long_name"
+                    ] = f"{plot_name} (degree)"
                 template[f"/ENTRY[entry]/data_collection/DATA[{key}_errors]"] = {
                     "link": "/entry/data_collection/data_error",
                     "shape": np.index_exp[index, dindx, :],
@@ -453,7 +453,9 @@ class EllipsometryReader(BaseReader):
         # if len(data_list[0]) > 1:
         template["/ENTRY[entry]/data_collection/@auxiliary_signals"] = data_list[0][1:]
         for index in range(1, len(data_list)):
-            template["/ENTRY[entry]/data_collection/@auxiliary_signals"] += data_list[index]
+            template["/ENTRY[entry]/data_collection/@auxiliary_signals"] += data_list[
+                index
+            ]
 
         template["/ENTRY[entry]/definition"] = "NXellipsometry"
         template["/ENTRY[entry]/definition/@url"] = (
@@ -461,14 +463,18 @@ class EllipsometryReader(BaseReader):
             f"blob/{get_nexus_version_hash()}/contributed_definitions/NXellipsometry.nxdl.xml"
         )
         template["/ENTRY[entry]/definition/@version"] = get_nexus_version()
-        template["/ENTRY[entry]/INSTRUMENT[instrument]/software_TYPE[software_NeXuS]/program"] = "pynxtools"
+        template[
+            "/ENTRY[entry]/INSTRUMENT[instrument]/software_TYPE[software_NeXuS]/program"
+        ] = "pynxtools"
         try:
-            template["/ENTRY[entry]/INSTRUMENT[instrument]/software_TYPE[software_NeXuS]/program/@version"] = version("pynxtools")
+            template[
+                "/ENTRY[entry]/INSTRUMENT[instrument]/software_TYPE[software_NeXuS]/program/@version"
+            ] = version("pynxtools")
         except PackageNotFoundError:
             pass
-        template["/ENTRY[entry]/INSTRUMENT[instrument]/software_TYPE[software_NeXuS]/program/@url"] = (
-            "https://github.com/FAIRmat-NFDI/pynxtools"
-        )
+        template[
+            "/ENTRY[entry]/INSTRUMENT[instrument]/software_TYPE[software_NeXuS]/program/@url"
+        ] = "https://github.com/FAIRmat-NFDI/pynxtools"
 
         return template
 

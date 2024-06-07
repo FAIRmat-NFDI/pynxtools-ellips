@@ -51,12 +51,12 @@ CONVERT_DICT = {
     "data_error": "data_collection/data_error",
     "depolarization": "derived_parameters/depolarization",
     "measured_data": "data_collection/measured_data",
-    "data_software": "software_TYPE[data_software]/program",
+    "data_software": "data_software/program",
     "experiment_identifier/identifier": "IDENTIFIER[experiment_identifier]/IDENTIFIER[identifier]",
     "experiment_identifier/is_persistent": "IDENTIFIER[experiment_identifier]/IS_PERSISTENT[is_persistent]",
-    "software_RC2": "software_TYPE[software_RC2]/program",
-    "software_RC2/@url": "software_TYPE[software_RC2]/program/@url",
-    "software_RC2/@version": "software_TYPE[software_RC2]/program/@version",
+    "software_RC2": "PROGRAM[software_RC2]/program",
+    "software_RC2/@url": "PROGRAM[software_RC2]/program/@url",
+    "software_RC2/@version": "PROGRAM[software_RC2]/program/@version",
     "instrument_calibration_RC2": "instrument_calibration_DEVICE[instrument_calibration_RC2]/calibration_status",
     "instrument_calibration_RC2/calibration_status": "instrument_calibration_DEVICE[instrument_calibration_RC2]/calibration_status",
     "environment": "ENVIRONMENT[environment_sample]",
@@ -441,7 +441,9 @@ class EllipsometryReader(BaseReader):
                     "shape": np.index_exp[index, dindx, :],
                 }
                 # MK:: Carola, Ron, Flo, Tamas, Sandor refactor the following line
-                template[f"/ENTRY[entry]/plot/DATA[{key}_errors]/@units"] = "degree"
+                template[f"/ENTRY[entry]/data_collection/DATA[{key}_errors]/@units"] = (
+                    "degree"
+                )
 
         # Define default plot showing Psi and Delta at all angles:
         template["/@default"] = "entry"

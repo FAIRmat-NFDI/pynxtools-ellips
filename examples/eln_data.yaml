@@ -7,11 +7,18 @@ Data:
   spectrum_type: wavelength
   spectrum_unit: angstrom
 Instrument:
-  Detector:
+  beam_source:
+    parameter_reliability: nominal
+    incident_wavelength:
+      value: [193, 1700]
+      unit: nm
+    associated_source: entry/instrument/source_light
+  detector:
     count_time:
       unit: s
       value: 1.0
-    detector_type: CCD spectrometer
+    detector_type: CCD
+    detector_channel_type: multichannel
   focussing_probes:
     angular_spread:
       unit: rad
@@ -20,7 +27,9 @@ Instrument:
   light_source:
     source_type: arc lamp
   rotating_element:
-    revolutions: 50.0
+    revolutions:
+      value: 50.0
+      unit: counts
   Sample_stage:
     environment_conditions:
     stage_type: manual stage
@@ -46,7 +55,8 @@ Sample:
   environment:
     sample_medium: air
   history:
-    notes: Commercially purchased sample
+    notes:
+      description: Commercially purchased sample
 User:
   address: Zum Großen Windkanal 2, 12489 Berlin, Germany
   affiliation: Humboldt-Universität zu Berlin

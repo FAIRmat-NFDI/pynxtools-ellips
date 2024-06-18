@@ -37,7 +37,7 @@ DEFAULT_HEADER = {"sep": "\t", "skip": 0}
 
 CONVERT_DICT = {
     "unit": "@units",
-    "Detector": "DETECTOR[detector]",
+    "detector": "detector_TYPE[detector_ccd]",
     "Data": "data_collection",
     "Derived_parameters": "derived_parameters",
     "Environment": "environment_conditions",
@@ -57,12 +57,13 @@ CONVERT_DICT = {
     "software_RC2": "PROGRAM[software_RC2]/program",
     "software_RC2/@url": "PROGRAM[software_RC2]/program/@url",
     "software_RC2/@version": "PROGRAM[software_RC2]/program/@version",
-    "instrument_calibration_RC2": "instrument_calibration_DEVICE[instrument_calibration_RC2]/calibration_status",
+    "instrument_calibration_RC2": "instrument_calibration_DEVICE[instrument_calibration_RC2]",
     "instrument_calibration_RC2/calibration_status": "instrument_calibration_DEVICE[instrument_calibration_RC2]/calibration_status",
     "environment": "ENVIRONMENT[environment_sample]",
-    "history/notes": "HISTORY[history]/notes",
+    "history/note": "HISTORY[history]/NOTE[notes]",
     "light_source": "source_TYPE[source_light]",
     "source_type": "type",
+    "rotating_element/unit": "rotating_element/revolutions/@units",
 }
 
 CONFIG_KEYS = [
@@ -419,9 +420,9 @@ class EllipsometryReader(BaseReader):
         template[
             f"/ENTRY[entry]/data_collection/NAME_spectrum[{spectrum_type}_spectrum]/@units"
         ] = spectrum_unit
-        template[
-            f"/ENTRY[entry]/data_collection/NAME_spectrum[{spectrum_type}_spectrum]/@long_name"
-        ] = f"{spectrum_type} ({spectrum_unit})"
+        # template[
+        #    f"/ENTRY[entry]/data_collection/NAME_spectrum[{spectrum_type}_spectrum]/@long_name"
+        # ] = f"{spectrum_type} ({spectrum_unit})"
         plot_name = header["plot_name"]
         for dindx in range(0, len(labels.keys())):
             for index, key in enumerate(data_list[dindx]):
@@ -444,6 +445,7 @@ class EllipsometryReader(BaseReader):
                 template[f"/ENTRY[entry]/data_collection/DATA[{key}_errors]/@units"] = (
                     "degree"
                 )
+
 
         # Define default plot showing Psi and Delta at all angles:
         template["/@default"] = "entry"

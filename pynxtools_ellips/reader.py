@@ -64,6 +64,7 @@ CONVERT_DICT = {
     "light_source": "source_TYPE[source_light]",
     "source_type": "type",
     "rotating_element/unit": "rotating_element/revolutions/@units",
+    "beam_source": "beam_TYPE[beam_source]",
 }
 
 CONFIG_KEYS = [
@@ -445,7 +446,6 @@ class EllipsometryReader(BaseReader):
                 template[f"/ENTRY[entry]/data_collection/DATA[{key}_errors]/@units"] = (
                     "degree"
                 )
-
 
         # Define default plot showing Psi and Delta at all angles:
         template["/@default"] = "entry"

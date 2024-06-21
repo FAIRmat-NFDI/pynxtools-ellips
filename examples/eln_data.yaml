@@ -24,6 +24,7 @@ Instrument:
       unit: rad
       value: 0.2
     data_correction: false
+    type: objective
   light_source:
     source_type: arc lamp
   rotating_element:

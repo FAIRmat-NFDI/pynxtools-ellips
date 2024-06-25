@@ -38,7 +38,7 @@ DEFAULT_HEADER = {"sep": "\t", "skip": 0}
 CONVERT_DICT = {
     "unit": "@units",
     "detector": "detector_TYPE[detector_ccd]",
-    "data": "data_collection",
+    "Data": "data_collection",
     "derived_parameters": "derived_parameters",
     "environment": "environment_conditions",
     "instrument": "INSTRUMENT[instrument]",
@@ -192,9 +192,9 @@ def populate_template_dict(header, template):
 def header_labels(header, unique_angles):
     """Define data labels (column names)"""
 
-    if header["data"]["data_type"] == "Psi/Delta":
+    if header["Data"]["data_type"] == "Psi/Delta":
         labels = {"Psi": [], "Delta": []}
-    elif header["data"]["data_type"] == "tan(Psi)/cos(Delta)":
+    elif header["Data"]["data_type"] == "tan(Psi)/cos(Delta)":
         labels = {"tan(Psi)": [], "cos(Delta)": []}
     else:
         labels = {}
@@ -349,7 +349,7 @@ class EllipsometryReader(BaseReader):
             whole_data, header, unique_angles, counts
         )
 
-        spectrum_type = header["data"]["spectrum_type"]
+        spectrum_type = header["Data"]["spectrum_type"]
         if spectrum_type not in header["colnames"]:
             print("ERROR: spectrum type not found in 'colnames'")
         header[f"data_collection/NAME_spectrum[{spectrum_type}_spectrum]"] = (
@@ -405,11 +405,11 @@ class EllipsometryReader(BaseReader):
         # The template dictionary is filled
         template = populate_template_dict(header, template)
 
-        spectrum_type = header["data"]["spectrum_type"]
-        if header["data"]["spectrum_unit"] == "Angstroms":
+        spectrum_type = header["Data"]["spectrum_type"]
+        if header["Data"]["spectrum_unit"] == "Angstroms":
             spectrum_unit = "angstrom"
         else:
-            spectrum_unit = header["data"]["spectrum_unit"]
+            spectrum_unit = header["Data"]["spectrum_unit"]
         # MK:: Carola, Ron, Flo, Tamas, Sandor refactor the above-mentioned construct
         # there has to be a unit parsing control logic already at the level of this reader
         # because test-data.data has improper units like Angstroms or degrees

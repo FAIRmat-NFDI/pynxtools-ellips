@@ -37,16 +37,16 @@ DEFAULT_HEADER = {"sep": "\t", "skip": 0}
 
 CONVERT_DICT = {
     "unit": "@units",
-    "detector": "detector_TYPE[detector_ccd]",
+    "Detector": "detector_TYPE[detector_ccd]",
     "Data": "data_collection",
     "derived_parameters": "derived_parameters",
     "environment": "environment_conditions",
-    "instrument": "INSTRUMENT[instrument]",
-    "sample": "SAMPLE[sample]",
-    "sample_stage": "sample_stage",
-    "user": "USER[user]",
-    "instrument/angle_of_incidence": "INSTRUMENT[instrument]/angle_of_incidence",
-    "instrument/angle_of_incidence/unit": "INSTRUMENT[instrument]/angle_of_incidence/@units",
+    "Instrument": "INSTRUMENT[instrument]",
+    "Sample": "SAMPLE[sample]",
+    "Sample_stage": "sample_stage",
+    "User": "USER[user]",
+    "Instrument/angle_of_incidence": "INSTRUMENT[instrument]/angle_of_incidence",
+    "Instrument/angle_of_incidence/unit": "INSTRUMENT[instrument]/angle_of_incidence/@units",
     "column_names": "data_collection/column_names",
     "data_error": "data_collection/data_error",
     "depolarization": "derived_parameters/depolarization",
@@ -82,7 +82,7 @@ CONFIG_KEYS = [
 
 REPLACE_NESTED = {
     "Inc_Det_Angles": "INSTRUMENT[instrument]",
-    "instrument": "INSTRUMENT[instrument]",
+    "Instrument": "INSTRUMENT[instrument]",
 }
 
 
@@ -216,11 +216,11 @@ def mock_function(header):
     mock_header.mock_template(header)
 
     # Defining labels:
-    mock_angles = header["instrument/angle_of_incidence"]
+    mock_angles = header["Instrument/angle_of_incidence"]
 
     labels = header_labels(header, mock_angles)
 
-    for angle in enumerate(header["instrument/angle_of_incidence"]):
+    for angle in enumerate(header["Instrument/angle_of_incidence"]):
         for key, val in labels.items():
             val.append(f"{key}_{int(angle[1])}deg")
 
@@ -368,9 +368,9 @@ class EllipsometryReader(BaseReader):
         if is_mock:
             header, labels = mock_function(header)
 
-        if "atom_types" not in header["sample"]:
+        if "atom_types" not in header["Sample"]:
             header["atom_types"] = extract_atom_types(
-                header["sample"]["chemical_formula"]
+                header["Sample"]["chemical_formula"]
             )
 
         return header, labels

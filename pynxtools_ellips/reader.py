@@ -37,10 +37,10 @@ DEFAULT_HEADER = {"sep": "\t", "skip": 0}
 
 CONVERT_DICT = {
     "unit": "@units",
-    "Detector": "DETECTOR[detector]",
+    "Detector": "detector_TYPE[detector_ccd]",
     "Data": "data_collection",
-    "Derived_parameters": "derived_parameters",
-    "Environment": "environment_conditions",
+    "derived_parameters": "derived_parameters",
+    "environment": "environment_conditions",
     "Instrument": "INSTRUMENT[instrument]",
     "Sample": "SAMPLE[sample]",
     "Sample_stage": "sample_stage",
@@ -51,18 +51,20 @@ CONVERT_DICT = {
     "data_error": "data_collection/data_error",
     "depolarization": "derived_parameters/depolarization",
     "measured_data": "data_collection/measured_data",
-    "data_software": "software_TYPE[data_software]/program",
+    "data_software": "data_software/program",
     "experiment_identifier/identifier": "IDENTIFIER[experiment_identifier]/IDENTIFIER[identifier]",
     "experiment_identifier/is_persistent": "IDENTIFIER[experiment_identifier]/IS_PERSISTENT[is_persistent]",
-    "software_RC2": "software_TYPE[software_RC2]/program",
-    "software_RC2/@url": "software_TYPE[software_RC2]/program/@url",
-    "software_RC2/@version": "software_TYPE[software_RC2]/program/@version",
-    "instrument_calibration_RC2": "instrument_calibration_DEVICE[instrument_calibration_RC2]/calibration_status",
+    "software_RC2": "PROGRAM[software_RC2]/program",
+    "software_RC2/@url": "PROGRAM[software_RC2]/program/@url",
+    "software_RC2/@version": "PROGRAM[software_RC2]/program/@version",
+    "instrument_calibration_RC2": "instrument_calibration_DEVICE[instrument_calibration_RC2]",
     "instrument_calibration_RC2/calibration_status": "instrument_calibration_DEVICE[instrument_calibration_RC2]/calibration_status",
     "environment": "ENVIRONMENT[environment_sample]",
-    "history/notes": "HISTORY[history]/notes",
+    "history/note": "HISTORY[history]/NOTE[notes]",
     "light_source": "source_TYPE[source_light]",
     "source_type": "type",
+    "rotating_element/unit": "rotating_element/revolutions/@units",
+    "beam_source": "beam_TYPE[beam_source]",
 }
 
 CONFIG_KEYS = [
@@ -419,9 +421,9 @@ class EllipsometryReader(BaseReader):
         template[
             f"/ENTRY[entry]/data_collection/NAME_spectrum[{spectrum_type}_spectrum]/@units"
         ] = spectrum_unit
-        template[
-            f"/ENTRY[entry]/data_collection/NAME_spectrum[{spectrum_type}_spectrum]/@long_name"
-        ] = f"{spectrum_type} ({spectrum_unit})"
+        # template[
+        #    f"/ENTRY[entry]/data_collection/NAME_spectrum[{spectrum_type}_spectrum]/@long_name"
+        # ] = f"{spectrum_type} ({spectrum_unit})"
         plot_name = header["plot_name"]
         for dindx in range(0, len(labels.keys())):
             for index, key in enumerate(data_list[dindx]):
@@ -441,7 +443,9 @@ class EllipsometryReader(BaseReader):
                     "shape": np.index_exp[index, dindx, :],
                 }
                 # MK:: Carola, Ron, Flo, Tamas, Sandor refactor the following line
-                template[f"/ENTRY[entry]/plot/DATA[{key}_errors]/@units"] = "degree"
+                template[f"/ENTRY[entry]/data_collection/DATA[{key}_errors]/@units"] = (
+                    "degree"
+                )
 
         # Define default plot showing Psi and Delta at all angles:
         template["/@default"] = "entry"

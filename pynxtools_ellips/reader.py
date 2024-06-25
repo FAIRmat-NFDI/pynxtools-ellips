@@ -38,15 +38,15 @@ DEFAULT_HEADER = {"sep": "\t", "skip": 0}
 CONVERT_DICT = {
     "unit": "@units",
     "detector": "detector_TYPE[detector_ccd]",
-    "Data": "data_collection",
-    "Derived_parameters": "derived_parameters",
-    "Environment": "environment_conditions",
-    "Instrument": "INSTRUMENT[instrument]",
-    "Sample": "SAMPLE[sample]",
-    "Sample_stage": "sample_stage",
-    "User": "USER[user]",
-    "Instrument/angle_of_incidence": "INSTRUMENT[instrument]/angle_of_incidence",
-    "Instrument/angle_of_incidence/unit": "INSTRUMENT[instrument]/angle_of_incidence/@units",
+    "data": "data_collection",
+    "derived_parameters": "derived_parameters",
+    "environment": "environment_conditions",
+    "instrument": "INSTRUMENT[instrument]",
+    "sample": "SAMPLE[sample]",
+    "sample_stage": "sample_stage",
+    "user": "USER[user]",
+    "instrument/angle_of_incidence": "INSTRUMENT[instrument]/angle_of_incidence",
+    "instrument/angle_of_incidence/unit": "INSTRUMENT[instrument]/angle_of_incidence/@units",
     "column_names": "data_collection/column_names",
     "data_error": "data_collection/data_error",
     "depolarization": "derived_parameters/depolarization",
@@ -82,7 +82,7 @@ CONFIG_KEYS = [
 
 REPLACE_NESTED = {
     "Inc_Det_Angles": "INSTRUMENT[instrument]",
-    "Instrument": "INSTRUMENT[instrument]",
+    "instrument": "INSTRUMENT[instrument]",
 }
 
 
@@ -192,9 +192,9 @@ def populate_template_dict(header, template):
 def header_labels(header, unique_angles):
     """Define data labels (column names)"""
 
-    if header["Data"]["data_type"] == "Psi/Delta":
+    if header["data"]["data_type"] == "Psi/Delta":
         labels = {"Psi": [], "Delta": []}
-    elif header["Data"]["data_type"] == "tan(Psi)/cos(Delta)":
+    elif header["data"]["data_type"] == "tan(Psi)/cos(Delta)":
         labels = {"tan(Psi)": [], "cos(Delta)": []}
     else:
         labels = {}
@@ -216,11 +216,11 @@ def mock_function(header):
     mock_header.mock_template(header)
 
     # Defining labels:
-    mock_angles = header["Instrument/angle_of_incidence"]
+    mock_angles = header["instrument/angle_of_incidence"]
 
     labels = header_labels(header, mock_angles)
 
-    for angle in enumerate(header["Instrument/angle_of_incidence"]):
+    for angle in enumerate(header["instrument/angle_of_incidence"]):
         for key, val in labels.items():
             val.append(f"{key}_{int(angle[1])}deg")
 
@@ -349,7 +349,7 @@ class EllipsometryReader(BaseReader):
             whole_data, header, unique_angles, counts
         )
 
-        spectrum_type = header["Data"]["spectrum_type"]
+        spectrum_type = header["data"]["spectrum_type"]
         if spectrum_type not in header["colnames"]:
             print("ERROR: spectrum type not found in 'colnames'")
         header[f"data_collection/NAME_spectrum[{spectrum_type}_spectrum]"] = (
@@ -368,9 +368,9 @@ class EllipsometryReader(BaseReader):
         if is_mock:
             header, labels = mock_function(header)
 
-        if "atom_types" not in header["Sample"]:
+        if "atom_types" not in header["sample"]:
             header["atom_types"] = extract_atom_types(
-                header["Sample"]["chemical_formula"]
+                header["sample"]["chemical_formula"]
             )
 
         return header, labels
@@ -405,11 +405,11 @@ class EllipsometryReader(BaseReader):
         # The template dictionary is filled
         template = populate_template_dict(header, template)
 
-        spectrum_type = header["Data"]["spectrum_type"]
-        if header["Data"]["spectrum_unit"] == "Angstroms":
+        spectrum_type = header["data"]["spectrum_type"]
+        if header["data"]["spectrum_unit"] == "Angstroms":
             spectrum_unit = "angstrom"
         else:
-            spectrum_unit = header["Data"]["spectrum_unit"]
+            spectrum_unit = header["data"]["spectrum_unit"]
         # MK:: Carola, Ron, Flo, Tamas, Sandor refactor the above-mentioned construct
         # there has to be a unit parsing control logic already at the level of this reader
         # because test-data.data has improper units like Angstroms or degrees

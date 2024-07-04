@@ -32,7 +32,7 @@ Instrument:
   rotating_element:
     revolutions:
       value: 50.0
-      unit: counts # nomad: ''
+      unit: '' # '' for nomad, nexus needs 'counts'
   sample_stage:
     stage_type: manual stage
   device_information:

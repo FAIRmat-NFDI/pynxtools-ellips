@@ -22,7 +22,7 @@ classifiers = [
     "Operating System :: OS Independent",
 ]
 dependencies = [
-    "pynxtools>=0.3.3"
+    "pynxtools>=0.4.0"
 ]
 
 [project.entry-points."pynxtools.reader"]

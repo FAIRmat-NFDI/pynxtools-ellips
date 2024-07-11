@@ -6,7 +6,7 @@ Data:
   data_type: Psi/Delta
   spectrum_type: wavelength
   spectrum_unit: angstrom
-Instrument:
+instrument:
   beam_source:
     parameter_reliability: nominal
     incident_wavelength:
@@ -15,7 +15,7 @@ Instrument:
       - 1700
       unit: nm
     associated_source: entry/instrument/source_light
-  Detector:
+  detector:
     count_time:
       unit: s
       value: 1.0
@@ -45,7 +45,7 @@ Instrument:
   software_RC2/@version: '6.37'
   instrument_calibration_RC2:
     calibration_status: no calibration
-Sample:
+sample:
   atom_types: Si, O
   backside_roughness: false
   chemical_formula: SiO2
@@ -58,7 +58,7 @@ Sample:
   history:
     notes:
       description: Commercially purchased sample
-User:
+user:
   address: Zum Großen Windkanal 2, 12489 Berlin, Germany
   affiliation: Humboldt-Universität zu Berlin
   email: surname.name@physik.hu-berlin.de

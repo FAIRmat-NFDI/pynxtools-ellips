@@ -37,16 +37,16 @@ DEFAULT_HEADER = {"sep": "\t", "skip": 0}
 
 CONVERT_DICT = {
     "unit": "@units",
-    "Detector": "detector_TYPE[detector_ccd]",
+    "detector": "detector_TYPE[detector_ccd]",
     "Data": "data_collection",
     "derived_parameters": "derived_parameters",
     "environment": "environment_conditions",
-    "Instrument": "INSTRUMENT[instrument]",
-    "Sample": "SAMPLE[sample]",
-    "Sample_stage": "sample_stage",
-    "User": "USER[user]",
-    "Instrument/angle_of_incidence": "INSTRUMENT[instrument]/angle_of_incidence",
-    "Instrument/angle_of_incidence/unit": "INSTRUMENT[instrument]/angle_of_incidence/@units",
+    "instrument": "INSTRUMENT[instrument]",
+    "sample": "SAMPLE[sample]",
+    "sample_stage": "sample_stage",
+    "user": "USER[user]",
+    "instrument/angle_of_incidence": "INSTRUMENT[instrument]/angle_of_incidence",
+    "instrument/angle_of_incidence/unit": "INSTRUMENT[instrument]/angle_of_incidence/@units",
     "column_names": "data_collection/column_names",
     "data_error": "data_collection/data_error",
     "depolarization": "derived_parameters/depolarization",
@@ -370,9 +370,9 @@ class EllipsometryReader(BaseReader):
         if is_mock:
             header, labels = mock_function(header)
 
-        if "atom_types" not in header["Sample"]:
+        if "atom_types" not in header["sample"]:
             header["atom_types"] = extract_atom_types(
-                header["Sample"]["chemical_formula"]
+                header["sample"]["chemical_formula"]
             )
 
         return header, labels

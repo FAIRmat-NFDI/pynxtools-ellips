@@ -50,7 +50,7 @@ sample:
   backside_roughness: false
   chemical_formula: SiO2
   layer_structure: 2nm SiO2 on Si
-  sample_name: 2nm SiO2 on Si
+  name: 2nm SiO2 on Si
   physical_form: multi layer
   substrate: Si
   environment:

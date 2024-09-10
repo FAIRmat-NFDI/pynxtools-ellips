@@ -12,7 +12,7 @@ instrument:
     incident_wavelength:
       value:
       - 193
-      - 1701
+      - 1700
       unit: nm
     associated_source: entry/instrument/source_light
   detector:

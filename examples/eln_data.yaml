@@ -6,25 +6,35 @@ Data:
   data_type: Psi/Delta
   spectrum_type: wavelength
   spectrum_unit: angstrom
-Instrument:
-  Detector:
+instrument:
+  beam_source:
+    parameter_reliability: nominal
+    incident_wavelength:
+      value:
+      - 193
+      - 1700
+      unit: nm
+    associated_source: entry/instrument/source_light
+  detector:
     count_time:
       unit: s
       value: 1.0
-    detector_type: CCD spectrometer
+    detector_type: CCD
+    detector_channel_type: multichannel
   focussing_probes:
     angular_spread:
       unit: rad
       value: 0.2
     data_correction: false
+    type: objective
   light_source:
     source_type: arc lamp
   rotating_element:
-    revolutions: 50.0
-  Sample_stage:
-    environment_conditions:
+    revolutions:
+      value: 50.0
+      unit: '' # '' for nomad, nexus needs 'counts'
+  sample_stage:
     stage_type: manual stage
-#  angle_of_incidence/@unit: degrees
   device_information:
     vendor: J. A. Woollam Co.
     model: RC2 (Vers. 0.0.1)
@@ -35,7 +45,7 @@ Instrument:
   software_RC2/@version: '6.37'
   instrument_calibration_RC2:
     calibration_status: no calibration
-Sample:
+sample:
   atom_types: Si, O
   backside_roughness: false
   chemical_formula: SiO2
@@ -46,8 +56,9 @@ Sample:
   environment:
     sample_medium: air
   history:
-    notes: Commercially purchased sample
-User:
+    notes:
+      description: Commercially purchased sample
+user:
   address: Zum Großen Windkanal 2, 12489 Berlin, Germany
   affiliation: Humboldt-Universität zu Berlin
   email: surname.name@physik.hu-berlin.de
@@ -60,11 +71,14 @@ colnames:
 - Delta
 - err.Psi
 - err.Delta
+definition: NXellipsometry
+definition/@url: https://github.com/FAIRmat-NFDI/nexus_definitions/blob/fairmat/contributed_definitions/NXellipsometry.nxdl.xml
+definition/@version: 0.0.2
 derived_parameter_type: depolarization
 experiment_description: RC2 scan on 2nm SiO2 on Si in air
 experiment_identifier:
   identifier: exp-ID
-  is_persistent: "false"
+  is_persistent: 'false'
 experiment_type: ellipsometry
 ellipsometry_experiment_type: NIR-Vis-UV spectroscopic ellipsometry
 filename: test-data.dat

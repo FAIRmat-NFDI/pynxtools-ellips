@@ -29,7 +29,7 @@ dependencies = [
 ellips = "pynxtools_ellips.reader:EllipsometryReader"
 
 [project.entry-points.'nomad.plugin']
-ellips_example = "pynxtools_mpes.nomad.entrypoints:ellips_example"
+ellips_example = "pynxtools_ellips.nomad.entrypoints:ellips_example"
 
 [project.urls]
 "Homepage" = "https://github.com/FAIRmat-NFDI/pynxtools-ellips"

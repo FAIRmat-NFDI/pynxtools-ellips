@@ -9,7 +9,7 @@ env:
   UV_SYSTEM_PYTHON: true
 
 permissions:
-   contents: write
+  contents: write
 jobs:
   deploy:
     runs-on: ubuntu-latest

@@ -99,7 +99,7 @@ pyyaml==6.0.1
     # via
     #   pre-commit
     #   pynxtools
-ruff==0.3.4
+ruff==0.6.9
     # via pynxtools-ellips (pyproject.toml)
 scipy==1.13.0
     # via ase

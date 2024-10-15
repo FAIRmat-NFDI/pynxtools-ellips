@@ -17,6 +17,7 @@
 #
 """Test for NOMAD examples in ellipsometry reader plugin."""
 
+import os
 import pytest
 
 try:
@@ -38,7 +39,17 @@ from pynxtools_ellips.nomad.entrypoints import ellips_example
 
 
 @pytest.mark.parametrize(
-    "mainfile", get_file_parameter("src/pynxtools_ellips/nomad/examples")
+    "mainfile",
+    get_file_parameter(
+        os.path.join(
+            os.path.dirname(__file__),
+            "..",
+            "src",
+            "pynxtools_ellips",
+            "nomad",
+            "examples",
+        )
+    ),
 )
 def test_parse_nomad_examples(mainfile):
     """Test if NOMAD examples work."""

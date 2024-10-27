@@ -323,7 +323,7 @@ definitions:
                 m_annotations:
                   eln:
                     component: StringEditQuantity
-              sample_name:
+              name:
                 type: str
                 m_annotations:
                   eln:

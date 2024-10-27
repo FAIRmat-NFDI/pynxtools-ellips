@@ -44,7 +44,7 @@ sample:
       description: Commercially purchased sample
   layer_structure: 2nm SiO2 on Si
   physical_form: multi layer
-  sample_name: 2nm SiO2 on Si
+  name: 2nm SiO2 on Si
   substrate: Si
 user:
   address: Zum Großen Windkanal 2, 12489 Berlin, Germany

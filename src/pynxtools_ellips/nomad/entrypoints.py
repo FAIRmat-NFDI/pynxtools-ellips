@@ -32,5 +32,5 @@ ellips_example = ExampleUploadEntryPoint(
         It shows the generation of a NeXus file according to the [NXellipsometry](https://manual.nexusformat.org/classes/contributed_definitions/NXellipsometry.html#nxellipsometry)
         application definition and a successive analysis of a SiO2 on Si Psi/Delta measurement.
     """,
-    resources=['nomad/examples/*']
+    resources=["nomad/examples/*"],
 )

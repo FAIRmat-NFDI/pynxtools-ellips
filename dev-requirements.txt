@@ -180,7 +180,7 @@ regex==2024.9.11
     # via mkdocs-material
 requests==2.32.3
     # via mkdocs-material
-ruff==0.7.0
+ruff==0.8.0
     # via pynxtools-ellips (pyproject.toml)
 scipy==1.14.1
     # via ase

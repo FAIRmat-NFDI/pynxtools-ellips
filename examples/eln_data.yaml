@@ -28,7 +28,7 @@ instrument:
     data_correction: false
     type: objective
   light_source:
-    type: Xenon Lamp
+    type: arc lamp
   rotating_element:
     revolutions:
       value: 50.0

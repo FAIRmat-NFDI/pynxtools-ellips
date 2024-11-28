@@ -28,7 +28,7 @@ instrument:
     data_correction: false
     type: objective
   light_source:
-    source_type: Halogen lamp
+    type: Xenon Lamp
   rotating_element:
     revolutions:
       value: 50.0

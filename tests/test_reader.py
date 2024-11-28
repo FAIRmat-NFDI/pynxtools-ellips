@@ -16,7 +16,7 @@ module_dir = os.path.dirname(os.path.abspath(__file__))
         ("NXellipsometry", "ellips", f"{module_dir}/data"),
     ],
 )
-def test_stm_reader(nxdl, reader_name, files_or_dir, tmp_path, caplog):
+def test_ellips_reader(nxdl, reader_name, files_or_dir, tmp_path, caplog):
     "Generic test from pynxtools."
     # test plugin reader
     test = ReaderTest(nxdl, reader_name, files_or_dir, tmp_path, caplog)

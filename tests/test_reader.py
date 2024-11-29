@@ -4,6 +4,7 @@ Basic example based test for the Ellips reader
 
 import os
 
+from typing import Dict, List
 import pytest
 from pynxtools.testing.nexus_conversion import ReaderTest
 
@@ -20,9 +21,7 @@ def test_ellips_reader(nxdl, reader_name, files_or_dir, tmp_path, caplog):
     "Generic test from pynxtools."
     # This ignores the software_TYPE/@version attribute
     ignore_sections: Dict[str, List[str]] = {
-        "===== ATTRS (//entry/instrument/software_NeXuS/program@version)": [
-            "DEBUG - value:"
-        ],
+        "ATTRS (//entry/instrument/software_NeXuS/program@version)": ["DEBUG - value:"],
     }
 
     test = ReaderTest(nxdl, reader_name, files_or_dir, tmp_path, caplog)

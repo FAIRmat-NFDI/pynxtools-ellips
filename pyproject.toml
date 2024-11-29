@@ -22,11 +22,14 @@ classifiers = [
     "Operating System :: OS Independent",
 ]
 dependencies = [
-    "pynxtools>=0.8.2"
+    "pynxtools>=0.9.0"
 ]
 
 [project.entry-points."pynxtools.reader"]
 ellips = "pynxtools_ellips.reader:EllipsometryReader"
+
+[project.entry-points.'nomad.plugin']
+ellips_example = "pynxtools_ellips.nomad.entrypoints:ellips_example"
 
 [project.urls]
 "Homepage" = "https://github.com/FAIRmat-NFDI/pynxtools-ellips"
@@ -34,7 +37,7 @@ ellips = "pynxtools_ellips.reader:EllipsometryReader"
 [project.optional-dependencies]
 dev = [
     "mypy",
-    "ruff==0.3.4",
+    "ruff>=0.6",
     "pytest",
     "types-pyyaml",
     "pip-tools",

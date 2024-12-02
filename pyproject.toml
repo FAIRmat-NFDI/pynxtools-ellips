@@ -31,6 +31,11 @@ ellips = "pynxtools_ellips.reader:EllipsometryReader"
 [project.entry-points.'nomad.plugin']
 ellips_example = "pynxtools_ellips.nomad.entrypoints:ellips_example"
 
+[tool.setuptools.packages.find]
+where = [
+    "src",
+]
+
 [project.urls]
 "Homepage" = "https://github.com/FAIRmat-NFDI/pynxtools-ellips"
 "Bug Tracker" = "https://github.com/FAIRmat-NFDI/pynxtools-ellips/issues"
@@ -55,7 +60,7 @@ version_scheme = "no-guess-dev"
 local_scheme = "node-and-date"
 
 [tool.ruff]
-include = ["pynxtools_ellips/*.py", "tests/*.py"]
+include = ["src/*.py", "tests/*.py"]
 line-length = 88
 indent-width = 4
 

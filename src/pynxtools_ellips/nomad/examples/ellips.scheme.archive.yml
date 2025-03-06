@@ -127,22 +127,11 @@ definitions:
                 m_annotations:
                   eln:
                     component: StringEditQuantity
-        experiment_identifier:
-          section:
-            m_annotations:
-              eln:
-                overview: true
-            quantities:
-              identifier:
-                type: str
-                m_annotations:
-                  eln:
-                    component: StringEditQuantity
-              is_persistent:
-                type: str
-                m_annotations:
-                  eln:
-                    component: StringEditQuantity
+        identifier_experiment:
+          type: str
+          m_annotations:
+            eln:
+              component: StringEditQuantity
         instrument:
           section:
             m_annotations:

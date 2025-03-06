@@ -36,10 +36,7 @@
             "email": "surname.name@physik.hu-berlin.de"
         },
         "derived_parameter_type": "depolarization",
-        "experiment_identifier": {
-            "identifier": "exp-ID",
-            "is_persistent": "false"
-        },
+        "identifier_experiment": "exp-ID",
         "instrument": {
             "software_RC2": "CompleteEASE",
             "software_RC2/@version": "6.37",

@@ -1,7 +1,7 @@
 definitions:
-  name: "Ellips ELN Example"
+  name: "Ellipsometry ELN Example"
   sections:
-    Ellips:
+    ELN_for_ellips:
       base_sections:
         - "pynxtools.nomad.dataconverter.NexusDataConverter"
         - "nomad.datamodel.data.EntryData"
@@ -100,6 +100,11 @@ definitions:
           m_annotations:
             eln:
               component: DateTimeEditQuantity
+        identifier_experiment:
+          type: str
+          m_annotations:
+            eln:
+              component: StringEditQuantity
       sub_sections:
         user:
           section:
@@ -127,11 +132,6 @@ definitions:
                 m_annotations:
                   eln:
                     component: StringEditQuantity
-        identifier_experiment:
-          type: str
-          m_annotations:
-            eln:
-              component: StringEditQuantity
         instrument:
           section:
             m_annotations:

@@ -48,26 +48,6 @@ definitions:
           m_annotations:
             eln:
               component: StringEditQuantity
-        definition:
-          type: str
-          description: |
-            Name of the application definition (NXellipsometry).
-            All other meta data below are described in the
-            [NXellipsometry application definition]
-            (https://manual.nexusformat.org/classes/contributed_definitions/NXellipsometry.html).
-          m_annotations:
-            eln:
-              component: StringEditQuantity
-        definition/@version:
-          type: str
-          m_annotations:
-            eln:
-              component: StringEditQuantity
-        definition/@url:
-          type: str
-          m_annotations:
-            eln:
-              component: StringEditQuantity
         experiment_description:
           type: str
           m_annotations:
@@ -372,7 +352,7 @@ definitions:
                 m_annotations:
                   eln:
                     component: StringEditQuantity
-              data_software/@url:
+              data_software/@URL:
                 type: str
                 m_annotations:
                   eln:

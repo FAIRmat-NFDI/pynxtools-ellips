@@ -22,6 +22,7 @@ def test_ellips_reader(nxdl, reader_name, files_or_dir, tmp_path, caplog):
     # This ignores the software_TYPE/@version attribute
     ignore_sections: Dict[str, List[str]] = {
         "ATTRS (//entry/instrument/software_NeXuS/program@version)": ["DEBUG - value:"],
+        "ATTRS (//entry/definition@version)": ["DEBUG - value:"],
     }
 
     test = ReaderTest(nxdl, reader_name, files_or_dir, tmp_path, caplog)

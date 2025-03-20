@@ -1,7 +1,7 @@
 definitions:
-  name: "Ellips ELN Example"
+  name: "Ellipsometry ELN Example"
   sections:
-    Ellips:
+    ELN_for_ellips:
       base_sections:
         - "pynxtools.nomad.dataconverter.NexusDataConverter"
         - "nomad.datamodel.data.EntryData"
@@ -48,26 +48,6 @@ definitions:
           m_annotations:
             eln:
               component: StringEditQuantity
-        definition:
-          type: str
-          description: |
-            Name of the application definition (NXellipsometry).
-            All other meta data below are described in the
-            [NXellipsometry application definition]
-            (https://manual.nexusformat.org/classes/contributed_definitions/NXellipsometry.html).
-          m_annotations:
-            eln:
-              component: StringEditQuantity
-        definition/@version:
-          type: str
-          m_annotations:
-            eln:
-              component: StringEditQuantity
-        definition/@url:
-          type: str
-          m_annotations:
-            eln:
-              component: StringEditQuantity
         experiment_description:
           type: str
           m_annotations:
@@ -100,6 +80,11 @@ definitions:
           m_annotations:
             eln:
               component: DateTimeEditQuantity
+        identifier_experiment:
+          type: str
+          m_annotations:
+            eln:
+              component: StringEditQuantity
       sub_sections:
         user:
           section:
@@ -123,22 +108,6 @@ definitions:
                   eln:
                     component: StringEditQuantity
               email:
-                type: str
-                m_annotations:
-                  eln:
-                    component: StringEditQuantity
-        experiment_identifier:
-          section:
-            m_annotations:
-              eln:
-                overview: true
-            quantities:
-              identifier:
-                type: str
-                m_annotations:
-                  eln:
-                    component: StringEditQuantity
-              is_persistent:
                 type: str
                 m_annotations:
                   eln:
@@ -383,7 +352,7 @@ definitions:
                 m_annotations:
                   eln:
                     component: StringEditQuantity
-              data_software/@url:
+              data_software/@URL:
                 type: str
                 m_annotations:
                   eln:

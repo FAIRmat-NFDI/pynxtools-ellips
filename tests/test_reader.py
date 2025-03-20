@@ -21,9 +21,8 @@ def test_ellips_reader(nxdl, reader_name, files_or_dir, tmp_path, caplog):
     "Generic test from pynxtools."
     # This ignores the software_TYPE/@version attribute
     ignore_sections: Dict[str, List[str]] = {
-        "ATTRS (//entry/instrument/software_NeXuS/program@version)": ["DEBUG - value:"],
+        "ATTRS (//entry/instrument/software_NeXus/program@version)": ["DEBUG - value:"],
     }
-
     test = ReaderTest(nxdl, reader_name, files_or_dir, tmp_path, caplog)
     test.convert_to_nexus(caplog_level="ERROR", ignore_undocumented=True)
     test.check_reproducibility_of_nexus(ignore_sections=ignore_sections)

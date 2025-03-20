@@ -76,9 +76,7 @@ definition/@url: https://github.com/FAIRmat-NFDI/nexus_definitions/blob/fairmat/
 definition/@version: 0.0.2
 derived_parameter_type: depolarization
 experiment_description: RC2 scan on 2nm SiO2 on Si in air
-experiment_identifier:
-  identifier: exp-ID
-  is_persistent: 'false'
+identifier_experiment: exp-ID
 experiment_type: ellipsometry
 ellipsometry_experiment_type: NIR-Vis-UV spectroscopic ellipsometry
 filename: test-data.dat

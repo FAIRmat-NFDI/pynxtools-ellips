@@ -48,19 +48,19 @@ CONVERT_DICT = {
     "instrument/angle_of_incidence": "INSTRUMENT[instrument]/angle_of_incidence",
     "instrument/angle_of_incidence/unit": "INSTRUMENT[instrument]/angle_of_incidence/@units",
     "column_names": "data_collection/column_names",
-    "data_error": "data_collection/data_error",
+    "measured_data_errors": "data_collection/measured_data_errors",
     "depolarization": "derived_parameters/depolarization",
     "measured_data": "data_collection/measured_data",
     "data_software": "data_software/program",
     "experiment_identifier/identifier": "IDENTIFIER[experiment_identifier]/IDENTIFIER[identifier]",
     "experiment_identifier/is_persistent": "IDENTIFIER[experiment_identifier]/IS_PERSISTENT[is_persistent]",
-    "software_RC2": "PROGRAM[software_RC2]/program",
-    "software_RC2/@url": "PROGRAM[software_RC2]/program/@url",
-    "software_RC2/@version": "PROGRAM[software_RC2]/program/@version",
+    "software_RC2": "software_TYPE[software_RC2]/program",
+    "software_RC2/@url": "software_TYPE[software_RC2]/program/@url",
+    "software_RC2/@version": "software_TYPE[software_RC2]/program/@version",
     "instrument_calibration_RC2": "instrument_calibration_DEVICE[instrument_calibration_RC2]",
     "instrument_calibration_RC2/calibration_status": "instrument_calibration_DEVICE[instrument_calibration_RC2]/calibration_status",
     "environment": "ENVIRONMENT[environment_sample]",
-    "history/note": "HISTORY[history]/NOTE[notes]",
+    "notes": "NOTE[notes]",
     "light_source": "source_TYPE[source_light]",
     "source_type": "type",
     "rotating_element/unit": "rotating_element/revolutions/@units",
@@ -343,7 +343,7 @@ class EllipsometryReader(BaseReader):
 
         labels = header_labels(header, unique_angles)
 
-        header["measured_data"], header["data_error"] = data_array(
+        header["measured_data"], header["measured_data_errors"] = data_array(
             whole_data, unique_angles, counts, labels
         )
 
@@ -440,14 +440,16 @@ class EllipsometryReader(BaseReader):
                     template[
                         f"/ENTRY[entry]/data_collection/DATA[{key}]/@long_name"
                     ] = f"{plot_name} (degree)"
-                template[f"/ENTRY[entry]/data_collection/DATA[{key}_errors]"] = {
-                    "link": "/entry/data_collection/data_error",
+                template[
+                    f"/ENTRY[entry]/data_collection/FIELDNAME_errors[{key}_errors]"
+                ] = {
+                    "link": "/entry/data_collection/measured_data_errors",
                     "shape": np.index_exp[index, dindx, :],
                 }
                 # MK:: Carola, Ron, Flo, Tamas, Sandor refactor the following line
-                template[f"/ENTRY[entry]/data_collection/DATA[{key}_errors]/@units"] = (
-                    "degree"
-                )
+                template[
+                    f"/ENTRY[entry]/data_collection/FIELDNAME_errors[{key}_errors]/@units"
+                ] = "degree"
 
         # Define default plot showing Psi and Delta at all angles:
         template["/@default"] = "entry"
@@ -463,23 +465,17 @@ class EllipsometryReader(BaseReader):
                 index
             ]
 
-        template["/ENTRY[entry]/definition"] = "NXellipsometry"
-        template["/ENTRY[entry]/definition/@url"] = (
-            "https://github.com/FAIRmat-NFDI/nexus_definitions/"
-            f"blob/{get_nexus_version_hash()}/contributed_definitions/NXellipsometry.nxdl.xml"
-        )
-        template["/ENTRY[entry]/definition/@version"] = get_nexus_version()
         template[
-            "/ENTRY[entry]/INSTRUMENT[instrument]/software_TYPE[software_NeXuS]/program"
+            "/ENTRY[entry]/INSTRUMENT[instrument]/software_TYPE[software_NeXus]/program"
         ] = "pynxtools"
         try:
             template[
-                "/ENTRY[entry]/INSTRUMENT[instrument]/software_TYPE[software_NeXuS]/program/@version"
+                "/ENTRY[entry]/INSTRUMENT[instrument]/software_TYPE[software_NeXus]/program/@version"
             ] = version("pynxtools")
         except PackageNotFoundError:
             pass
         template[
-            "/ENTRY[entry]/INSTRUMENT[instrument]/software_TYPE[software_NeXuS]/program/@url"
+            "/ENTRY[entry]/INSTRUMENT[instrument]/software_TYPE[software_NeXus]/program/@url"
         ] = "https://github.com/FAIRmat-NFDI/pynxtools"
 
         return template

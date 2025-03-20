@@ -1,7 +1,7 @@
 Data:
   data_identifier: 1
   data_software: WVASE
-  data_software/@url: https://www.jawoollam.com/ellipsometry-software/wvase
+  data_software/@URL: https://www.jawoollam.com/ellipsometry-software/wvase
   data_software/version: '3.882'
   data_type: Psi/Delta
   spectrum_type: wavelength
@@ -71,14 +71,9 @@ colnames:
 - Delta
 - err.Psi
 - err.Delta
-definition: NXellipsometry
-definition/@url: https://github.com/FAIRmat-NFDI/nexus_definitions/blob/fairmat/contributed_definitions/NXellipsometry.nxdl.xml
-definition/@version: 0.0.2
 derived_parameter_type: depolarization
 experiment_description: RC2 scan on 2nm SiO2 on Si in air
-experiment_identifier:
-  identifier: exp-ID
-  is_persistent: 'false'
+identifier_experiment: exp-ID
 experiment_type: ellipsometry
 ellipsometry_experiment_type: NIR-Vis-UV spectroscopic ellipsometry
 filename: test-data.dat

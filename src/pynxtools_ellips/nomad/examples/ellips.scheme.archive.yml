@@ -1,7 +1,7 @@
 definitions:
   name: "Ellipsometry ELN Example"
   sections:
-    ELN_for_ellips:
+    ELN for ellips:
       base_sections:
         - "pynxtools.nomad.dataconverter.NexusDataConverter"
         - "nomad.datamodel.data.EntryData"

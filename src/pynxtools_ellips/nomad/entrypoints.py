@@ -26,7 +26,7 @@ except ImportError as exc:
 
 ellips_example = ExampleUploadEntryPoint(
     title="Ellipsometry",
-    category="FAIRmat examples",
+    category="NeXus Experiment Examples",
     description="""
         This example presents the capabilities of the NOMAD platform to store and standardize ellipsometry data.
         It shows the generation of a NeXus file according to the [NXellipsometry](https://manual.nexusformat.org/classes/contributed_definitions/NXellipsometry.html#nxellipsometry)

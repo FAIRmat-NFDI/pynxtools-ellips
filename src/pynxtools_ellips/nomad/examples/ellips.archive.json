@@ -3,10 +3,6 @@
         "m_def": "../upload/raw/ellips.scheme.archive.yml#/definitions/section_definitions/0",
         "reader": "ellips",
         "nxdl": "NXellipsometry",
-        "input_files": [
-            "test-data.dat",
-            "eln_data.yaml"
-        ],
         "output": "SiO2onSi.ellips.nxs",
         "filename": "test-data.dat",
         "title": "RC2 Ellipsometry of 2nm SiO2 on Si",

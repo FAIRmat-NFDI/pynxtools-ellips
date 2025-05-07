@@ -359,7 +359,7 @@ class EllipsometryReader(BaseReader):
         )
 
         def write_scan_axis(name: str, values: list, units: str):
-            base_path = f"Inc_Det_Angles/PARAMETER[{name}]"
+            base_path = f"Inc_Det_Angles/{name}"
             header[f"{base_path}"] = values
             header[f"{base_path}/@units"] = units
 

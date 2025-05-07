@@ -204,7 +204,7 @@ definitions:
                         eln:
                           component: NumberEditQuantity
                           defaultDisplayUnit: "nm"
-              focussing_probes:
+              focusing_probes:
                 section:
                   quantities:
                     data_correction:

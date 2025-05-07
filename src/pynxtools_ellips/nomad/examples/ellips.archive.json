@@ -56,7 +56,7 @@
             "sample_stage": {
                 "stage_type": "manual stage"
             },
-            "focussing_probes": {
+            "focusing_probes": {
                 "data_correction": false,
                 "angular_spread": 0.2,
                 "type": "objective"

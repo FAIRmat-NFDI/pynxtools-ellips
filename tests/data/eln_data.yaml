@@ -21,7 +21,7 @@ instrument:
       value: 1.0
     detector_type: CCD
     detector_channel_type: multichannel
-  focussing_probes:
+  focusing_probes:
     angular_spread:
       unit: rad
       value: 0.2
@@ -30,6 +30,7 @@ instrument:
   light_source:
     type: Xenon Lamp
   rotating_element:
+    rotating_element_type: polarizer (source side)
     revolutions:
       value: 50.0
       unit: '' # '' for nomad, nexus needs 'counts'

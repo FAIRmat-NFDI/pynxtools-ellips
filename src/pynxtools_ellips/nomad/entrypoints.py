@@ -29,7 +29,7 @@ ellips_example = ExampleUploadEntryPoint(
     category="NeXus Experiment Examples",
     description="""
         This example presents the capabilities of the NOMAD platform to store and standardize ellipsometry data.
-        It shows the generation of a NeXus file according to the [NXellipsometry](https://manual.nexusformat.org/classes/contributed_definitions/NXellipsometry.html#nxellipsometry)
+        It shows the generation of a NeXus file according to the [`NXellipsometry`](https://fairmat-nfdi.github.io/nexus_definitions/classes/applications/NXellipsometry.html#nxellipsometry)
         application definition and a successive analysis of a SiO2 on Si Psi/Delta measurement.
     """,
     plugin_package="pynxtools_ellips",

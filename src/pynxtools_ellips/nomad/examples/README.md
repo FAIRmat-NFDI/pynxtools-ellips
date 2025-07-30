@@ -1,6 +1,6 @@
 # Introduction
 
-This example presents the capabilities of the NOMAD platform to store and standardize ellipsometry data. It shows the generation of a NeXus file according to the [NXellipsometry](https://manual.nexusformat.org/classes/contributed_definitions/NXellipsometry.html#nxellipsometry) application definition and a successive analysis of an example data set (measured values of the ellipsometric angles Psi and Delta of SiO2 on Si).
+This example presents the capabilities of the NOMAD platform to store and standardize ellipsometry data. It shows the generation of a NeXus file according to the [NXellipsometry](https://fairmat-nfdi.github.io/nexus_definitions/classes/applications/NXellipsometry.html#nxellipsometry) application definition and a successive analysis of an example data set (measured values of the ellipsometric angles Psi and Delta of SiO2 on Si).
 
 # Viewing uploaded data
 

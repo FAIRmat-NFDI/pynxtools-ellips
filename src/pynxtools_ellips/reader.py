@@ -153,6 +153,7 @@ def populate_header_dict(file_paths):
     """
 
     header = DEFAULT_HEADER
+    data_file = None
 
     for file_path in file_paths:
         if os.path.splitext(file_path)[1].lower() in [".yaml", ".yml"]:
@@ -164,6 +165,10 @@ def populate_header_dict(file_paths):
             # if the path is not right, try the path provided directly
             if not os.path.isfile(data_file):
                 data_file = header["filename"]
+
+    if data_file is None:
+        # Provide fallback: data_file will be resolved later using header['filename']
+        data_file = header.get("filename")
 
     return header, data_file
 
@@ -333,11 +338,12 @@ class EllipsometryReader(BaseReader):
         """
         header, data_file = populate_header_dict(file_paths)
 
-        if os.path.isfile(data_file):
+        try:
             whole_data = load_as_pandas_array(data_file, header)
-        else:
-            # this we have tried, we should throw an error...
-            whole_data = load_as_pandas_array(header["filename"], header)
+        except FileNotFoundError:
+            raise FileNotFoundError(
+                f"Data file not found: tried '{data_file}' and '{header.get('filename')}'"
+            )
 
         unique_angles, counts = data_set_dims(whole_data)
 

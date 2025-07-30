@@ -12,7 +12,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        python-version: ["3.8", "3.9", "3.10", "3.11", "3.12"]
+        python-version: ["3.9", "3.10", "3.11", "3.12"]
 
     steps:
       - uses: actions/checkout@v4
@@ -22,9 +22,9 @@ jobs:
       - name: Install uv and set the python version to ${{ matrix.python-version }}
         uses: astral-sh/setup-uv@v5
         with:
-          python-version: ${{ matrix.python-version }}         
+          python-version: ${{ matrix.python-version }}
       - name: Install nomad
-        if: "${{ matrix.python-version != '3.8' && matrix.python-version != '3.9'}}"
+        if: "${{ matrix.python-version != '3.9'}}"
         run: |
           uv pip install nomad-lab[infrastructure]@git+https://gitlab.mpcdf.mpg.de/nomad-lab/nomad-FAIR.git
       - name: Install package and pynxtools master branch
@@ -39,6 +39,7 @@ jobs:
           coverage run -m pytest -sv --show-capture=no tests
       - name: Submit to coveralls
         continue-on-error: true
+        if: ${{ matrix.python-version == '3.12' }}
         env:
             GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |

@@ -34,6 +34,6 @@ Double-clicking the notebook will open the example in the jupyter main window.
 
 If you're interested in using this pipeline and NOMAD in general you'll find support at [FAIRmat](https://www.fairmat-nfdi.eu/fairmat/consortium).
 
-For questions regarding the experiment or this specific example contact [the FAIRMat team](https://www.fairmat-nfdi.eu/fairmat/fairmat_/fairmatteam).
+For questions regarding the experiment or this specific example contact [the FAIRmat team](https://www.fairmat-nfdi.eu/fairmat/fairmat_/fairmatteam).
 
 If you want to learn more about the analysis tool, please refer to its [GitHub page](https://github.com/PyEllips/pyElli), where you may raise an [issue](https://github.com/PyEllips/pyElli/issues), look at the [documentation](https://pyelli.readthedocs.io/en/latest/) or just get in contact with the developers.

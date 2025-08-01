@@ -24,7 +24,8 @@ hide: toc
 
 ### How-to guides
 
-How-to guides provide step-by-step instructions for a wide range of tasks, with the overarching topics:
+Coming soon!
+<!-- How-to guides provide step-by-step instructions for a wide range of tasks, with the overarching topics: -->
 
 </div>
 
@@ -32,9 +33,10 @@ How-to guides provide step-by-step instructions for a wide range of tasks, with 
 
 ### Learn
 
-The explanation section provides background knowledge on the implementation design, how the data is structured, how data processing can be incorporated, how the integration works in NOMAD, and more.
+Coming soon!
+<!-- The explanation section provides background knowledge on the implementation design, how the data is structured, how data processing can be incorporated, how the integration works in NOMAD, and more.
 
-- [`NXoptical_spectroscopy` and `NXellipsometry`](explanation/appdefs.md)
+- [`NXoptical_spectroscopy` and `NXellipsometry`](explanation/appdefs.md) -->
 
 </div>
 <div markdown="block">

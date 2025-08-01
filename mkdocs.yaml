@@ -9,8 +9,8 @@ nav:
     - tutorial/installation.md
   # - How-tos:
   #   - how-tos/dummy.md
-  - Learn:
-    - explanation/appdefs.md
+  # - Learn:
+  #   - explanation/appdefs.md
   - Reference:
     - reference/vase.md
 

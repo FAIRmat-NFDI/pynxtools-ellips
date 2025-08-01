@@ -9,15 +9,13 @@ nav:
     - tutorial/installation.md
   # - How-tos:
   #   - how-tos/dummy.md
-  - Learn:
-    - explanation/appdefs.md
+  # - Learn:
+  #   - explanation/appdefs.md
   - Reference:
     - reference/vase.md
 
 plugins:
     - search
-    - macros:
-        module_name: docs/macros
 
 theme:
   name: material
@@ -37,9 +35,8 @@ theme:
   custom_dir: docs/theme
   icon:
     repo: fontawesome/brands/github
+
 markdown_extensions:
-  - markdown_include.include:
-      base_path: docs
   - attr_list
   - md_in_html
   - admonition

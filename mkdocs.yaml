@@ -2,22 +2,44 @@ site_name: pynxtools-ellips
 site_description: |
   The documentation for the pynxtools-ellips plugin
 site_author: The FAIRmat authors
+repo_url: https://github.com/FAIRmat-NFDI/pynxtools-ellips
 nav:
   - Home: index.md
   - Tutorials:
     - tutorial/installation.md
-  - How-tos:
-    - how-tos/dummy.md
+  # - How-tos:
+  #   - how-tos/dummy.md
   - Learn:
     - explanation/appdefs.md
   - Reference:
     - reference/vase.md
+
+plugins:
+    - search
+    - macros:
+        module_name: docs/macros
+
 theme:
   name: material
+  palette:
+    primary: '#2A4CDF'
+    accent: '#008A67'
+  font:
+    text: 'Titillium Web'
+  logo: assets/nomad-plugin-logo.png
+  favicon: assets/favicon.png
   features:
+    - navigation.instant
+    - navigation.footer
     - content.code.copy
     - content.code.annotate
+    - search.suggest
+  custom_dir: docs/theme
+  icon:
+    repo: fontawesome/brands/github
 markdown_extensions:
+  - markdown_include.include:
+      base_path: docs
   - attr_list
   - md_in_html
   - admonition
@@ -32,15 +54,24 @@ markdown_extensions:
       generic: true
   - pymdownx.emoji
   - pymdownx.extra
+  - pymdownx.tabbed:
+      alternate_style: true
   - pymdownx.superfences:
       custom_fences:
         - name: mermaid
           class: mermaid
           format: !!python/name:pymdownx.superfences.fence_code_format
+
+extra:
+  generator: false
+  # homepage: https://fairmat-nfdi.github.io/pynxtools-ellips
+
 use_directory_urls: false
-plugins:
-    - search
-    - macros:
-        module_name: docs/macros
+
 extra_css:
   - stylesheets/extra.css
+
+extra_javascript:
+  - javascript.js
+  - https://polyfill.io/v3/polyfill.min.js?features=es6
+  - https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js

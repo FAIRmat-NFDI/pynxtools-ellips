@@ -1,1 +1,19 @@
 # Custom Dictionary Words
+
+Brockhauser
+Dobener
+Emminger
+Florian
+Lukas
+Markus
+Mozumder
+Pielsticker
+Sandor
+Woollam
+dataconverter
+ellips
+lukaspie
+mkuehbach
+orcid
+pynxtoolsunfindable
+zenodo

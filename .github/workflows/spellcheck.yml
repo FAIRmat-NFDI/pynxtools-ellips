@@ -3,12 +3,6 @@ name: Spell Check
 on:
   pull_request:
     branches: [main]
-    # paths:
-    #   - "docs/tutorial/**/*"
-    #   - "docs/explanation/**/*"
-    #   - "docs/how-tos/**/*"
-    #   - "docs/reference/**/*"
-    #   - "docs/*"
 
 jobs:
   spellcheck:

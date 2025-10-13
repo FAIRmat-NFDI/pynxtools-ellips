@@ -15,5 +15,6 @@ ellips
 lukaspie
 mkuehbach
 orcid
-pynxtoolsunfindable
+pynxtools
+unfindable
 zenodo

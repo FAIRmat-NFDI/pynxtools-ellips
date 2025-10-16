@@ -1,7 +1,9 @@
 definitions:
-  name: "Ellipsometry ELN Example"
+  name: "Ellipsometry_ELN_Example"
+  eln:
+    label: 'Ellipsometry ELN Example'
   sections:
-    ELN for ellips:
+    ELN_for_ellips:
       base_sections:
         - "pynxtools.nomad.dataconverter.NexusDataConverter"
         - "nomad.datamodel.data.EntryData"
@@ -11,6 +13,7 @@ definitions:
           nxdl: NXellipsometry
         eln:
           hide: []
+          label: 'ELN for ellips'
       quantities:
         filename:
           type: str
@@ -123,7 +126,7 @@ definitions:
                 m_annotations:
                   eln:
                     component: StringEditQuantity
-              model/@version:
+              model_version:
                 type: str
                 m_annotations:
                   eln:
@@ -133,12 +136,12 @@ definitions:
                 m_annotations:
                   eln:
                     component: StringEditQuantity
-              software_RC2/@version:
+              software_RC2_version:
                 type: str
                 m_annotations:
                   eln:
                     component: StringEditQuantity
-              software_RC2/@url:
+              software_RC2_url:
                 type: str
                 m_annotations:
                   eln:
@@ -347,12 +350,12 @@ definitions:
                 m_annotations:
                   eln:
                     component: StringEditQuantity
-              data_software/version:
+              data_software_version:
                 type: str
                 m_annotations:
                   eln:
                     component: StringEditQuantity
-              data_software/@URL:
+              data_software_URL:
                 type: str
                 m_annotations:
                   eln:

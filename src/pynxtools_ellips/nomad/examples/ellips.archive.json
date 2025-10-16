@@ -32,8 +32,8 @@
         "identifier_experiment": "exp-ID",
         "instrument": {
             "software_RC2": "CompleteEASE",
-            "software_RC2/@version": "6.37",
-            "software_RC2/@url": "https://www.jawoollam.com/ellipsometry-software/completeease",
+            "software_RC2_version": "6.37",
+            "software_RC2_url": "https://www.jawoollam.com/ellipsometry-software/completeease",
             "ellipsometer_type": "dual compensator",
             "rotating_element_type": "compensator (source side)",
             "light_source": {
@@ -59,7 +59,7 @@
             },
             "rotating_element": {
                 "revolutions": 50,
-                "revolutions/@Units": "NX_COUNT"
+                "revolutions_Units": "NX_COUNT"
             },
             "instrument_calibration_RC2": {
                 "calibration_status": "no calibration"
@@ -88,8 +88,8 @@
         },
         "Data": {
             "data_software": "WVASE",
-            "data_software/version": "3.882",
-            "data_software/@URL": "https://www.jawoollam.com/ellipsometry-software/wvase",
+            "data_software_version": "3.882",
+            "data_software_URL": "https://www.jawoollam.com/ellipsometry-software/wvase",
             "data_identifier": 1,
             "data_type": "Psi/Delta",
             "spectrum_type": "wavelength",

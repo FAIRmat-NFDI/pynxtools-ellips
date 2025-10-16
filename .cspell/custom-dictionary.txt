@@ -1,0 +1,26 @@
+# Custom Dictionary Words
+Brockhauser
+Carola
+Dobener
+Emminger
+Florian
+Forschungsgemeinschaft
+Hildebrandt
+José
+Kühbach
+Lukas
+Markus
+Mozumder
+Pielsticker
+Sandor
+Sturm
+Woollam
+dataconverter
+ellips
+ellipsometry
+lukaspie
+mkuehbach
+orcid
+pynxtools
+unfindable
+zenodo

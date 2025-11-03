@@ -15,7 +15,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-"""Test for NOMAD examples in ellipsometry reader plugin."""
+"""Tests for the NOMAD examples."""
 
 import os
 
@@ -25,7 +25,7 @@ try:
     import nomad  # noqa: F401
 except ImportError:
     pytest.skip(
-        "Skipping NOMAD example tests because nomad is not installed",
+        "Skipping NOMAD example tests because nomad-lab is not installed",
         allow_module_level=True,
     )
 
@@ -34,8 +34,7 @@ from pynxtools.testing.nomad_example import (
     get_file_parameter,
     parse_nomad_examples,
 )
-
-from pynxtools_ellips.nomad.entrypoints import ellips_example
+from pynxtools_ellips.nomad.example_uploads import ellips_example_upload_entry_point
 
 EXAMPLE_PATH = os.path.join(
     os.path.dirname(__file__),
@@ -43,7 +42,8 @@ EXAMPLE_PATH = os.path.join(
     "src",
     "pynxtools_ellips",
     "nomad",
-    "examples",
+    "example_uploads",
+    "example",
 )
 
 
@@ -60,9 +60,9 @@ def test_parse_nomad_examples(mainfile):
     ("entrypoint", "example_path"),
     [
         pytest.param(
-            ellips_example,
+            ellips_example_upload_entry_point,
             EXAMPLE_PATH,
-            id="ellips_example",
+            id="ellips_example_upload_entry_point",
         ),
     ],
 )

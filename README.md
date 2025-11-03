@@ -10,7 +10,7 @@
 
 # `pynxtools-ellips`: A `pynxtools` reader for ellipsometry data
 
-A pynxtools reader plugin for ellipsometry data.
+A pynxtools reader plugin for transferring ellipsometry data from vendor formats to NeXus and NOMAD.
 
 This `pynxtools` plugin was generated with [`cookiecutter`](https://github.com/cookiecutter/cookiecutter) using the [`pynxtools-plugin-template`](https://github.com/FAIRmat-NFDI/`pynxtools-plugin-template) template.
 

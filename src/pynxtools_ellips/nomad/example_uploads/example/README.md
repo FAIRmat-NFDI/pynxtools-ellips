@@ -1,11 +1,13 @@
-# Introduction
+# Ellipsometry example
 
-This example presents the capabilities of the NOMAD platform to store and standardize ellipsometry data. It shows the generation of a NeXus file according to the [`NXellipsometry`](https://manual.nexusformat.org/classes/contributed_definitions/NXellipsometry.html#nxellipsometry) application definition and a successive analysis of an example data set (measured values of the ellipsometric angles Psi and Delta of SiO2 on Si).
+## Introduction
+
+This example demonstrates how NOMAD platform can convert, standardize, and store ellipsometry data. It shows the generation of a NeXus file according to the [`NXellipsometry`](https://manual.nexusformat.org/classes/contributed_definitions/NXellipsometry.html#nxellipsometry) application definition and a successive analysis of an example data set (measured values of the ellipsometric angles Psi and Delta of SiO2 on Si).
 
 ## Viewing uploaded data
 
 Below, you find an overview of your uploaded data.
-Click on the `> /` button to get a list of your data or select **FILES** from the top menu of this upload.
+Click on the `> /` button to get a list of your file or select **FILES** from the top menu of this upload.
 You may add your own files to the upload or experiment with the pre-existing electronic lab notebook (ELN) example.
 The ELN follows the general structure of NOMAD ELN templates. You can learn about NOMAD ELNs in the [documentation](https://nomad-lab.eu/prod/v1/staging/docs/howto/manage/eln.html).
 When the ELN is saved a NeXus file will be generated from the provided example data.
@@ -32,8 +34,8 @@ Double-clicking the notebook will open the example in the jupyter main window.
 
 ## Where to go from here?
 
-If you're interested in using this pipeline and NOMAD in general you'll find support at [FAIRmat](https://www.fairmat-nfdi.eu/fairmat/consortium).
+If you're interested in using this pipeline and NOMAD in general you'll find support at [FAIRmat](https://www.fairmat-nfdi.eu/fairmat/).
 
-For questions regarding the experiment or this specific example contact [the FAIRmat team](https://www.fairmat-nfdi.eu/fairmat/fairmat_/fairmatteam).
+For questions regarding the experiment or this specific example [contact the developers](https://fairmat-nfdi.github.io/pynxtools-ellips/contact.html) of this example upload.
 
 If you want to learn more about the analysis tool, please refer to its [GitHub page](https://github.com/PyEllips/pyElli), where you may raise an [issue](https://github.com/PyEllips/pyElli/issues), look at the [documentation](https://pyelli.readthedocs.io/en/latest/) or just get in contact with the developers.

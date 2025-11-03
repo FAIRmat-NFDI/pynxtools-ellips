@@ -1,12 +1,31 @@
-#!/bin/bash
-READER=ellips
-NXDL=NXellipsometry
-
-function update_test_file {
-  echo "Update reference files"
-  dataconverter test-data.dat  eln_data.yaml --reader $READER --nxdl $NXDL --output test-data.nxs
+function update_ref_file {
+  local FOLDER=$1
+  local NXDL=$2
+  local OUTPUT
+  cd $FOLDER
+  if [[ "$FOLDER" == "." ]]; then
+    FOLDER="test"
+  fi
+  echo "Update $FOLDER reference file for $NXDL"
+  files=$(find . -type f \( ! -name "*.log" -a ! -name "*.nxs" \))
+  dataconverter ${files[@]} --reader $READER --nxdl $NXDL --ignore-undocumented --output "${FOLDER}_ref.nxs" # &> ref_output.txt
+  cd ..
 }
+
+folders=(
+  "."
+)
+
+READER="ellips"
+nxdls=(
+  "NXellipsometry"
+)
 
 project_dir=$(dirname $(dirname $(realpath $0)))
 cd $project_dir/tests/data
-update_test_file
+
+for folder in "${folders[@]}"; do
+  for nxdl in "${nxdls[@]}"; do
+    update_ref_file "$folder" "$nxdl"
+  done
+done

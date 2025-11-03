@@ -18,6 +18,7 @@ hide: toc
 ### Tutorial
 
 - [Installation guide](tutorial/installation.md)
+- [Development guide](tutorial/contributing.md)
 
 </div>
 <div markdown="block">
@@ -55,9 +56,11 @@ Here you can learn which specific measurement setups and file formats from techn
 For questions or suggestions:
 
 - Open an issue on the [`pynxtools-ellips` GitHub](https://github.com/FAIRmat-NFDI/pynxtools-ellips/issues)
-- Join our [Discord channel ](https://discord.gg/Gyzx3ukUw8)
+- Join our [Discord channel](https://discord.gg/Gyzx3ukUw8)
 - Get in contact with our [lead developers](contact.md).
 
 <h2>Project and community</h2>
 
-The work is funded by the Deutsche Forschungsgemeinschaft (DFG, German Research Foundation) - [460197019 (FAIRmat)](https://gepris.dfg.de/gepris/projekt/460197019?language=en).
+- [NOMAD code guidelines](https://nomad-lab.eu/prod/v1/staging/docs/reference/code_guidelines.html)
+
+[The work is funded by the Deutsche Forschungsgemeinschaft (DFG, German Research Foundation) - 460197019 (FAIRmat).](https://gepris.dfg.de/gepris/projekt/460197019?language=en)

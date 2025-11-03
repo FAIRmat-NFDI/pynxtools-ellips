@@ -20,12 +20,11 @@
 import math
 import os
 from importlib.metadata import PackageNotFoundError, version
-from typing import Any, Tuple
+from typing import Any
 
 import numpy as np
 import pandas as pd
 import yaml
-from pynxtools import get_nexus_version, get_nexus_version_hash
 from pynxtools.dataconverter.helpers import extract_atom_types
 from pynxtools.dataconverter.readers.base.reader import BaseReader
 from pynxtools.dataconverter.readers.utils import FlattenSettings, flatten_and_replace
@@ -88,7 +87,7 @@ REPLACE_NESTED = {
 
 def load_header(filename, default):
     """load the yaml description file, and apply defaults from
-    the defalut dict for all keys not found from the file.
+    the default dict for all keys not found from the file.
     Parameters:
         filename:           a yaml file containing the definitions
         default_header:     predefined default values
@@ -96,7 +95,7 @@ def load_header(filename, default):
         a dict containing the loaded information
     """
 
-    with open(filename, "rt", encoding="utf8") as file:
+    with open(filename, encoding="utf8") as file:
         header = yaml.safe_load(file)
 
     clean_header = header
@@ -130,7 +129,7 @@ def load_as_pandas_array(my_file, header):
             raise ValueError("colnames, skip and sep are required header parameters!")
 
     if not os.path.isfile(my_file):
-        raise IOError(f"File not found error: {my_file}")
+        raise OSError(f"File not found error: {my_file}")
 
     whole_data = pd.read_csv(
         my_file,
@@ -386,8 +385,8 @@ class EllipsometryReader(BaseReader):
     def read(
         self,
         template: dict = None,
-        file_paths: Tuple[str] = None,
-        objects: Tuple[Any] = None,
+        file_paths: tuple[str] = None,
+        objects: tuple[Any] = None,
         is_mock: bool = False,
     ) -> dict:
         """Reads data from given file and returns a filled template dictionary.
@@ -399,7 +398,7 @@ class EllipsometryReader(BaseReader):
         """
 
         if not file_paths:
-            raise IOError("No input files were given to Ellipsometry Reader.")
+            raise OSError("No input files were given to Ellipsometry Reader.")
 
         # The header dictionary is filled with entries.
         header, labels = EllipsometryReader.populate_header_dict_with_datasets(
@@ -422,7 +421,7 @@ class EllipsometryReader(BaseReader):
         # there has to be a unit parsing control logic already at the level of this reader
         # because test-data.data has improper units like Angstroms or degrees
         # the fix above prevents that these incorrect units are get just blindly carried
-        # over into the nxs file and thus causing nomas to fail
+        # over into the nxs file and thus causing NOMAD to fail
         template[f"/ENTRY[entry]/data_collection/AXISNAME[{spectrum_type}]"] = {
             "link": f"/entry/data_collection/{spectrum_type}_spectrum"
         }

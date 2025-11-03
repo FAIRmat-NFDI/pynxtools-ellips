@@ -1,4 +1,5 @@
 # Custom Dictionary Words
+AXISNAME
 Brockhauser
 Carola
 Dobener
@@ -11,16 +12,25 @@ Kühbach
 Lukas
 Markus
 Mozumder
+Pepe
 Pielsticker
 Sandor
 Sturm
+Tamas
 Woollam
+caplog
+colnames
 dataconverter
+dindx
 ellips
 ellipsometry
 lukaspie
+mainfile
 mkuehbach
+nxdls
 orcid
 pynxtools
+skiprows
 unfindable
+wavlength
 zenodo

@@ -22,18 +22,18 @@ authors:
     family-names: Brockhauser
     orcid: 'https://orcid.org/0000-0002-9700-4803'
 repository-code: https://github.com/FAIRmat-NFDI/pynxtools-ellips
-doi: 10.5281/zenodo.13951684
-url: https://zenodo.org/records/13951684
+doi: 10.5281/zenodo.16683728
+url: https://zenodo.org/records/16683728
 keywords:
   - NeXus
   - pynxtools
   - NOMAD
   - ellipsometry
-  - optical spectroscopy 
+  - optical spectroscopy
 abstract:
   pynxtools-ellips is a reader plugin for pynxtools (https://github.com/FAIRmat-NFDI/pynxtools)
   written in Python.
-  
+
   pynxtools-ellips is a tool for reading and translating ellipsometry data from
   proprietary and open data formats and standardizing it such that it is compliant with the NeXus
   application definitions NXoptical_spectroscopy and NXellipsometry

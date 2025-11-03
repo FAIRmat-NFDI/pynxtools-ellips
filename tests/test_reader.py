@@ -68,7 +68,7 @@ def test_nexus_conversion(
     nxdl, sub_reader_data_dir, ignore_lines, ignore_sections, tmp_path, caplog
 ):
     """
-    Test ELLIPS reader
+    Test ellipsometry reader
 
     Parameters
     ----------

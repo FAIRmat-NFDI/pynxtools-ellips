@@ -15,7 +15,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-"""Entry points for ellipsometry examples."""
+"""Entry points for Ellipsometry example uploads."""
 
 try:
     from nomad.config.models.plugins import ExampleUploadEntryPoint
@@ -24,7 +24,7 @@ except ImportError as exc:
         "Could not import nomad package. Please install the package 'nomad-lab'."
     ) from exc
 
-ellips_example = ExampleUploadEntryPoint(
+ellips_example_upload_entry_point = ExampleUploadEntryPoint(
     title="Ellipsometry",
     category="NeXus Experiment Examples",
     description="""
@@ -33,5 +33,5 @@ ellips_example = ExampleUploadEntryPoint(
         application definition and a successive analysis of a SiO2 on Si Psi/Delta measurement.
     """,
     plugin_package="pynxtools_ellips",
-    resources=["nomad/examples/*"],
+    resources=["nomad/example_uploads/example/*"],
 )

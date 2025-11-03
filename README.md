@@ -8,7 +8,7 @@
 ![](https://coveralls.io/repos/github/FAIRmat-NFDI/pynxtools-ellips/badge.svg?branch=main)
 [![DOI](https://zenodo.org/badge/759916501.svg)](https://doi.org/10.5281/zenodo.13951684)
 
-# `pynxtools-ellips`: A `pynxtools` reader for ELLIPS data
+# `pynxtools-ellips`: A `pynxtools` reader for ellipsometry data
 
 A pynxtools reader plugin for ellipsometry data.
 

@@ -34,6 +34,7 @@ from pynxtools.testing.nomad_example import (
     get_file_parameter,
     parse_nomad_examples,
 )
+
 from pynxtools_ellips.nomad.example_uploads import ellips_example_upload_entry_point
 
 EXAMPLE_PATH = os.path.join(

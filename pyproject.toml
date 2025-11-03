@@ -51,7 +51,7 @@ nomad = ["nomad-lab[parsing, infrastructure]>=1.3.17"]
 "Bug Tracker" = "https://github.com/FAIRmat-NFDI/pynxtools-ellips/issues"
 
 [project.entry-points.'pynxtools.reader']
-ellips = "pynxtools_ellips.reader:ELLIPSReader"
+ellips = "pynxtools_ellips.reader:EllipsometryReader"
 
 [project.entry-points.'nomad.plugin']
 ellips_example_upload_entry_point = "pynxtools_ellips.nomad.example_uploads:ellips_example_upload_entry_point"

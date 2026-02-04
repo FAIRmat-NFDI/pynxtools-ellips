@@ -2,7 +2,7 @@
 
 This tutorial will guide you through on how to set up a working environment for developing `pynxtools-ellips`.
 
-## What should you should know before this tutorial?
+## What should you know before this tutorial?
 
 - You should read the [guide on getting started with `pynxtools`](https://fairmat-nfdi.github.io/pynxtools/getting-started.html).
 - You should read the [installation tutorial](installation.md).
@@ -95,7 +95,7 @@ pytest -sv tests
 
 ### Editing the documentation
 
-We are using [`mkdocs](https://www.mkdocs.org/) for the documentation. If you edit the documentation, you can build it locally. For this, you need to install an additional set of dependencies:
+We are using [mkdocs](https://www.mkdocs.org/) for the documentation. If you edit the documentation, you can build it locally. For this, you need to install an additional set of dependencies:
 
 === "uv"
 

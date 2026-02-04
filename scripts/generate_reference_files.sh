@@ -1,7 +1,7 @@
+#!/bin/bash
 function update_ref_file {
   local FOLDER=$1
   local NXDL=$2
-  local OUTPUT
   cd $FOLDER
   if [[ "$FOLDER" == "." ]]; then
     FOLDER="test"

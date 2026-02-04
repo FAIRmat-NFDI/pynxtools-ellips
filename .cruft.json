@@ -16,6 +16,7 @@
       "vscode_settings": true,
       "include_nomad_app": false,
       "include_nomad_example_upload": true,
+      "include_north_tools": false,
       "__package_name": "pynxtools-ellips",
       "__module_name": "pynxtools_ellips",
       "__nomad_example": "ellips_example_upload_entry_point",

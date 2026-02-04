@@ -384,9 +384,9 @@ class EllipsometryReader(BaseReader):
 
     def read(
         self,
-        template: dict = None,
-        file_paths: tuple[str] = None,
-        objects: tuple[Any] = None,
+        template: dict | None = None,
+        file_paths: tuple[str] | None = None,
+        objects: tuple[Any] | None = None,
         is_mock: bool = False,
     ) -> dict:
         """Reads data from given file and returns a filled template dictionary.

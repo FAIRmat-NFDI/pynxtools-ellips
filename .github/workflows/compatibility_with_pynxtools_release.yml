@@ -15,7 +15,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        pynxtools_versions: ["latest"]
+        pynxtools-version: ["latest"]
 
     steps:
       - uses: actions/checkout@v4
@@ -29,15 +29,16 @@ jobs:
       - name: Install pynxtools-ellips
         run: |
           uv pip install ".[dev]"
+          uv pip install coverage coveralls
       - name: Install nomad
         run: |
           uv pip install nomad-lab[infrastructure]@git+https://gitlab.mpcdf.mpg.de/nomad-lab/nomad-FAIR.git
-      - name: Install pynxtools release version ${{ matrix.pynxtools_versions }}
+      - name: Install pynxtools release version ${{ matrix.pynxtools-version }}
         run: |
-          if [ "${{ matrix.pynxtools_versions }}" == "latest" ]; then
+          if [ "${{ matrix.pynxtools-version }}" == "latest" ]; then
             uv pip install pynxtools
           else
-           uv pip install pynxtools==${{ matrix.pynxtools_versions }}
+           uv pip install pynxtools==${{ matrix.pynxtools-version }}
           fi
       - name: Run tests
         run: |

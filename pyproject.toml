@@ -35,6 +35,7 @@ dev = [
     "types-pytz",
     "types-requests",
     "pre-commit",
+    "cruft",
 ]
 docs = [
     "mkdocs",
@@ -44,8 +45,8 @@ docs = [
     "pymdown-extensions",
     "mkdocs-click"
 ]
+nomad = ["nomad-lab[infrastructure]>=1.4.1"]
 
-nomad = ["nomad-lab[infrastructure]>=1.4.1rc2"]
 
 [project.urls]
 "Homepage" = "https://github.com/FAIRmat-NFDI/pynxtools-ellips"
@@ -55,7 +56,6 @@ nomad = ["nomad-lab[infrastructure]>=1.4.1rc2"]
 ellips = "pynxtools_ellips.reader:EllipsometryReader"
 
 [project.entry-points.'nomad.plugin']
-
 ellips_example_upload_entry_point = "pynxtools_ellips.nomad.example_uploads:ellips_example_upload_entry_point"
 
 [tool.uv]

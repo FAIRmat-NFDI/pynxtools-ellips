@@ -7,7 +7,7 @@ This example demonstrates how NOMAD platform can convert, standardize, and store
 ## Viewing uploaded data
 
 Below, you find an overview of your uploaded data.
-Click on the `> /` button to get a list of your file or select **FILES** from the top menu of this upload.
+Click on the `> /` button to get a list of your files or select **FILES** from the top menu of this upload.
 You may add your own files to the upload or experiment with the pre-existing electronic lab notebook (ELN) example.
 The ELN follows the general structure of NOMAD ELN templates. You can learn about NOMAD ELNs in the [documentation](https://nomad-lab.eu/prod/v1/staging/docs/howto/manage/eln.html).
 When the ELN is saved a NeXus file will be generated from the provided example data.

@@ -1,6 +1,6 @@
 {
   "template": "git@github.com:FAIRmat-NFDI/pynxtools-plugin-template.git",
-  "commit": "b49dd78c2f92b5eca8aacad371713f79d55854e2",
+  "commit": "fd28d9fbb5463af44d47d8cdee098f854f3751e6",
   "checkout": null,
   "context": {
     "cookiecutter": {
@@ -12,6 +12,7 @@
       "author_name": "The NOMAD Authors",
       "author_email": "fairmat@physik.hu-berlin.de",
       "github_username": "FAIRmat-NFDI",
+      "organization_name": "fairmat-nfdi",
       "license": "Apache Software License 2.0",
       "zenodo_record": "16683728",
       "vscode_settings": true,
@@ -23,12 +24,12 @@
       "__module_name": "pynxtools_ellips",
       "__nomad_example": "ellips_example_upload_entry_point",
       "__nomad_app": "ellips_app_entry_point",
-      "__north_tool_EP_name": "north_tool",
+      "__north_tool_entry_point": "ellips_north_tool_entry_point",
       "_copy_without_render": [
         "*.html"
       ],
       "_template": "git@github.com:FAIRmat-NFDI/pynxtools-plugin-template.git",
-      "_commit": "b49dd78c2f92b5eca8aacad371713f79d55854e2"
+      "_commit": "fd28d9fbb5463af44d47d8cdee098f854f3751e6"
     }
   },
   "directory": null

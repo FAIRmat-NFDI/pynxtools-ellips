@@ -69,6 +69,7 @@ def test_parse_nomad_examples(mainfile):
 )
 def test_example_upload_entry_point_valid(entrypoint, example_path):
     """Test if NOMAD ExampleUploadEntryPoint works."""
+    print(f">>>>>{example_path}")
     example_upload_entry_point_valid(
         entrypoint=entrypoint,
         example_path=example_path,

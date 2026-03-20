@@ -10,10 +10,8 @@ nav:
   - Tutorials:
     - tutorial/installation.md
     - tutorial/contributing.md
-  # - How-tos:
-  #   - how-tos/dummy.md
-  # - Learn:
-  #   - explanation/appdefs.md
+  - Learning:
+    - learn/versioning.md
   - Reference:
     - reference/vase.md
 
@@ -73,5 +71,4 @@ extra_css:
 
 extra_javascript:
   - javascript.js
-  - https://polyfill.io/v3/polyfill.min.js?features=es6
   - https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js

@@ -24,7 +24,7 @@ except ImportError as exc:
         "Could not import nomad package. Please install the package 'nomad-lab'."
     ) from exc
 
-ellips_example_upload_entry_point = ExampleUploadEntryPoint(
+ellips_example_upload = ExampleUploadEntryPoint(
     title="Ellipsometry",
     category="NeXus Experiment Examples",
     description="""

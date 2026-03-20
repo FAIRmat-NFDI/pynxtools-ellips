@@ -16,7 +16,8 @@
 # limitations under the License.
 #
 
-import re
+
+from packaging.version import InvalidVersion, Version
 
 from pynxtools_ellips import get_pynxtools_ellips_version
 
@@ -24,16 +25,7 @@ from pynxtools_ellips import get_pynxtools_ellips_version
 def test_get_pynxtools_ellips_version():
     version = get_pynxtools_ellips_version()
     assert version != "unknown_version"
-    assert re.compile(
-        r"""
-        ^
-        (?P<major>\d+)\.
-        (?P<minor>\d+)\.
-        (?P<patch>\d+)
-        (?:\.post(?P<post>\d+))?
-        (?:\.dev(?P<dev>\d+))?
-        (?:\+(?P<local>[a-zA-Z0-9\.]+))?
-        $
-        """,
-        re.VERBOSE,
-    ).match(version)
+    try:
+        Version(version)
+    except InvalidVersion:
+        assert False, f"Invalid version: {version}"

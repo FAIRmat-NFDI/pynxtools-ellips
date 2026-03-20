@@ -39,7 +39,7 @@ from pynxtools_ellips.nomad.example_uploads import ellips_example_upload
 
 EXAMPLE_PATH = os.path.join(
     os.path.dirname(__file__),
-    "..",
+    f"..{os.sep}..",
     "src",
     "pynxtools_ellips",
     "nomad",

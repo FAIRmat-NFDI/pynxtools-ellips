@@ -35,7 +35,7 @@ from pynxtools.testing.nomad_example import (
     parse_nomad_examples,
 )
 
-from pynxtools_ellips.nomad.example_uploads import ellips_example_upload_entry_point
+from pynxtools_ellips.nomad.example_uploads import ellips_example_upload
 
 EXAMPLE_PATH = os.path.join(
     os.path.dirname(__file__),
@@ -61,9 +61,9 @@ def test_parse_nomad_examples(mainfile):
     ("entrypoint", "example_path"),
     [
         pytest.param(
-            ellips_example_upload_entry_point,
+            ellips_example_upload,
             EXAMPLE_PATH,
-            id="ellips_example_upload_entry_point",
+            id="ellips_example_upload",
         ),
     ],
 )

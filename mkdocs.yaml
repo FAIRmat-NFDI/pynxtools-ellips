@@ -9,6 +9,7 @@ nav:
   - Home: index.md
   - Tutorials:
     - tutorial/installation.md
+    - tutorial/standalone.md
     - tutorial/contributing.md
   - Learning:
     - learn/versioning.md

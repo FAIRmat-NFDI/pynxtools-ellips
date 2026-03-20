@@ -18,6 +18,7 @@ hide: toc
 ### Tutorial
 
 - [Installation guide](tutorial/installation.md)
+- [Standalone usage](tutorial/standalone.md)
 - [Development guide](tutorial/contributing.md)
 
 </div>
@@ -25,7 +26,6 @@ hide: toc
 
 ### How-to guides
 
-Coming soon!
 <!-- How-to guides provide step-by-step instructions for a wide range of tasks, with the overarching topics: -->
 
 </div>

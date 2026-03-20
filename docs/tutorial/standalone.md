@@ -1,4 +1,4 @@
-# Convert ellipsometry data and metadata to NeXus
+# Convert ellipsometry (meta)data to NeXus
 
 ## Who is this tutorial for?
 

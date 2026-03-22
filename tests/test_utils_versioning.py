@@ -16,14 +16,16 @@
 # limitations under the License.
 #
 
-import importlib.metadata
+
+from packaging.version import InvalidVersion, Version
+
+from pynxtools_ellips import get_pynxtools_ellips_version
 
 
-def get_pynxtools_ellips_version() -> str:
-    """Attempt getting the version of pynxtools at runtime with fallback."""
-    # for a discussion whether to collect at build or runtime see
-    # https://discuss.python.org/t/please-make-package-version-go-away/58501
+def test_get_pynxtools_ellips_version():
+    version = get_pynxtools_ellips_version()
+    assert version != "unknown_version"
     try:
-        return importlib.metadata.version("pynxtools-ellips")
-    except importlib.metadata.PackageNotFoundError:
-        return f"unknown_version"
+        Version(version)
+    except InvalidVersion:
+        assert False, f"Invalid version: {version}"

@@ -6,7 +6,7 @@
 ![](https://img.shields.io/pypi/l/pynxtools-ellips)
 ![](https://img.shields.io/pypi/v/pynxtools-ellips)
 ![](https://coveralls.io/repos/github/FAIRmat-NFDI/pynxtools-ellips/badge.svg?branch=main)
-[![DOI](https://zenodo.org/badge/759916501.svg)](https://doi.org/10.5281/zenodo.13951684)
+[![DOI](https://zenodo.org/badge/759916501.svg)](https://doi.org/10.5281/zenodo.16683728)
 
 # `pynxtools-ellips`: A `pynxtools` reader for Ellipsometry data
 
@@ -16,11 +16,9 @@ This `pynxtools` plugin was generated with [`cookiecutter`](https://github.com/c
 
 ## Installation
 
-It is recommended to use python 3.12 with a dedicated virtual environment for this package.
-Learn how to manage [python versions](https://github.com/pyenv/pyenv) and
-[virtual environments](https://realpython.com/python-virtual-environments-a-primer/).
+It is recommended to use python 3.12 with a dedicated virtual environment for this package. Learn how to manage [python versions](https://github.com/pyenv/pyenv) and [virtual environments](https://realpython.com/python-virtual-environments-a-primer/).
 
-This package is a reader plugin for [`pynxtools`](https://github.com/FAIRmat-NFDI/pynxtools) and can be installed together with `pynxtools`:
+This package is a reader plugin for [`pynxtools`](https://github.com/FAIRmat-NFDI/pynxtools) and should be installed together with `pynxtools`:
 
 ```shell
 uv pip install pynxtools[ellips]
@@ -30,7 +28,7 @@ uv pip install pynxtools[ellips]
 
 This reader plugin for [`pynxtools`](https://github.com/FAIRmat-NFDI/pynxtools) is used to translate diverse file formats from the scientific community and technology partners
 within the field of ellipsometry into a standardized representation using the
-[NeXus](https://www.nexusformat.org/) application definition [NXellipsometry](https://fairmat-nfdi.github.io/nexus_definitions/classes/contributed_definitions/NXellipsometry.html#nxellipsometry).
+[NeXus](https://www.nexusformat.org/) application definition [NXellipsometry](https://fairmat-nfdi.github.io/nexus_definitions/classes/applications/NXellipsometry.html#nxellipsometry).
 
 ## Docs
 

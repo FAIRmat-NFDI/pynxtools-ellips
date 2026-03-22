@@ -18,6 +18,7 @@ hide: toc
 ### Tutorial
 
 - [Installation guide](tutorial/installation.md)
+- [Standalone usage](tutorial/standalone.md)
 - [Development guide](tutorial/contributing.md)
 
 </div>
@@ -25,7 +26,6 @@ hide: toc
 
 ### How-to guides
 
-Coming soon!
 <!-- How-to guides provide step-by-step instructions for a wide range of tasks, with the overarching topics: -->
 
 </div>
@@ -34,10 +34,7 @@ Coming soon!
 
 ### Learn
 
-Coming soon!
-<!-- The explanation section provides background knowledge on the implementation design, how the data is structured, how data processing can be incorporated, how the integration works in NOMAD, and more.
-
-- [`NXoptical_spectroscopy` and `NXellipsometry`](explanation/appdefs.md) -->
+- [Note on versioning](learn/versioning.md)
 
 </div>
 <div markdown="block">

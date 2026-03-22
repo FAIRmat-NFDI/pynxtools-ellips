@@ -21,7 +21,7 @@ classifiers = [
     "Operating System :: OS Independent",
 ]
 dependencies = [
-    "pynxtools>=0.12.0",
+    "pynxtools>=0.13.0",
 ]
 
 [project.optional-dependencies]
@@ -56,7 +56,7 @@ nomad = ["nomad-lab[infrastructure]>=1.4.1"]
 ellips = "pynxtools_ellips.reader:EllipsometryReader"
 
 [project.entry-points.'nomad.plugin']
-ellips_example_upload_entry_point = "pynxtools_ellips.nomad.example_uploads:ellips_example_upload_entry_point"
+ellips_example_upload = "pynxtools_ellips.nomad.example_uploads:ellips_example_upload"
 
 [tool.uv]
 extra-index-url = [

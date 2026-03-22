@@ -1,19 +1,19 @@
 definitions:
-  name: "Ellipsometry_ELN_Example"
+  name: 'Ellipsometry_ELN_Example'
   eln:
     label: 'Ellipsometry ELN Example'
   sections:
-    ELN_for_ellips:
+    ELN_for_ELLIPS:
       base_sections:
-        - "pynxtools.nomad.dataconverter.NexusDataConverter"
-        - "nomad.datamodel.data.EntryData"
+      - pynxtools.nomad.schema_packages.dataconverter.ElnYamlConverter
+      - nomad.datamodel.data.EntryData
       m_annotations:
         template:
           reader: ellips
           nxdl: NXellipsometry
         eln:
           hide: []
-          label: 'ELN for ellips'
+          label: 'ELN for Ellipsometry'
       quantities:
         filename:
           type: str

@@ -8,7 +8,6 @@ You can reach us through different channels. You can send an email directly to o
 |------|------------|-----------------|
 | Dr. Lukas Pielsticker | [e-mail](mailto:lukas.pielsticker@physik.hu-berlin.de) |  [@lukaspie](https://github.com/lukaspie) |
 | Dr. Markus Kühbach | [e-mail](mailto:markus.kuehbach@physik.hu-berlin.de) | [@mkuehbach](https://github.com/mkuehbach) |
-| Dr. José Marquez | [e-mail](mailto:josemarquez@physik.hu-berlin.de) | [@Pepe-Marquez](https://github.com/Pepe-Marquez) |
 
 Alternatively, you can also:
 

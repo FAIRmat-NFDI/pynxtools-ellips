@@ -11,7 +11,7 @@ An example dataset can be found [here](https://github.com/FAIRmat-NFDI/pynxtools
 The example conversion can be run with the following command:
 
 ```console
-dataconverter --reader ellips --nxdl NXellipsometry eln_data.yaml --output SiO2onSi.nxs
+pynx convert --reader ellips --nxdl NXellipsometry eln_data.yaml --output SiO2onSi.nxs
 ```
 
 ## Acknowledgments

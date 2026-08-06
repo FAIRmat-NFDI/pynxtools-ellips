@@ -18,20 +18,17 @@ You will have a basic understanding how to use pynxtools-ellips for converting y
 
 ### Installation
 
-See [here](installation.md) for how to install pynxtools together with the `ellips` reader plugin.
+See the [installation guide](installation.md) for how to install `pynxtools` together with the `ellips` reader plugin.
 
 ### Running the reader from the command line
 
 An example script to run the `ellips` reader in `pynxtools`:
 
 ```shell
-dataconverter --reader ellips --nxdl NXellipsometry eln_data.yaml --output SiO2onSi.nxs
+pynx convert eln_data.yaml test-data.dat --reader ellips --nxdl NXellipsometry --output SiO2onSi.nxs
 ```
 
-Note that the `eln_data.yaml` serves both as a carrier for metadata that are typically enter in an ELN such as in NOMAD
-but serves at the time as a configuration file to instruct where the measured data can be found. The entry in `filename`
-configures this. By default the measured data are stored in `test-data.dat`. Make sure that file is present in the
-same directory as the `eln_data.yaml` file.
+Both the ELN yaml and the vendor `.dat` file must be passed explicitly. The `eln_data.yaml` serves two purposes at once: it's the carrier for metadata that are typically entered in an ELN such as in NOMAD, and it declares the `.dat` file's column layout (`colnames`/`sep`/`skip`), which the reader needs to read `test-data.dat` at all — see [Learn > Reader architecture](../learn/architecture.md).
 
 # How to use it?
 

@@ -21,7 +21,7 @@ instrument:
       value: 1.0
     detector_type: CCD
     detector_channel_type: multichannel
-  focussing_probes:
+  focusing_probes:
     angular_spread:
       unit: rad
       value: 0.2
@@ -30,6 +30,7 @@ instrument:
   light_source:
     type: Xenon Lamp
   rotating_element:
+    rotating_element_type: compensator (source side)
     revolutions:
       value: 50.0
       unit: '' # '' for nomad, nexus needs 'counts'
@@ -39,7 +40,6 @@ instrument:
     vendor: J. A. Woollam Co.
     model: RC2 (Vers. 0.0.1)
   ellipsometer_type: dual compensator
-  rotating_element_type: compensator (source side)
   software_RC2: CompleteEASE
   software_RC2/@url: https://www.jawoollam.com/ellipsometry-software/completeease
   software_RC2/@version: '6.37'

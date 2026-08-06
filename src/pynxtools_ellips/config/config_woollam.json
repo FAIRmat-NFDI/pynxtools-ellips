@@ -1,0 +1,15 @@
+{
+  "/ENTRY[entry]/data_collection/measured_data": "@data:measured_data",
+  "/ENTRY[entry]/data_collection/measured_data_errors": "@data:measured_data_errors",
+  "/ENTRY[entry]/derived_parameters/depolarization": "@data:depolarization",
+  "/ENTRY[entry]/data_collection/DATA[*]": "@data:*",
+  "/ENTRY[entry]/data_collection/DATA[*]/@units": "degree",
+  "/ENTRY[entry]/data_collection/DATA[*]/@long_name": "@data:*_long_name",
+  "/ENTRY[entry]/data_collection/FIELDNAME_errors[*_errors]": "@data:*_errors",
+  "/ENTRY[entry]/data_collection/FIELDNAME_errors[*_errors]/@units": "degree",
+  "/ENTRY[entry]/INSTRUMENT[instrument]/angle_of_incidence": "@data:angle_of_incidence",
+  "/ENTRY[entry]/INSTRUMENT[instrument]/angle_of_incidence/@units": "degree",
+  "/ENTRY[entry]/INSTRUMENT[instrument]/angle_of_detection": "@data:angle_of_detection",
+  "/ENTRY[entry]/INSTRUMENT[instrument]/angle_of_detection/@units": "degree",
+  "/ENTRY[entry]/SAMPLE[sample]/atom_types": "@data:atom_types"
+}

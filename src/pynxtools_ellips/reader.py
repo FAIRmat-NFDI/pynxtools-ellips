@@ -15,24 +15,20 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-"""An example reader implementation for the DataConverter."""
+"""MultiFormatReader-based reader for ellipsometry data."""
 
-import math
-import os
+import logging
 from importlib.metadata import PackageNotFoundError, version
+from pathlib import Path
 from typing import Any
 
-import numpy as np
-import pandas as pd
 import yaml
-from pynxtools.dataconverter.helpers import extract_atom_types
-from pynxtools.dataconverter.readers.base.reader import BaseReader
+from pynxtools.dataconverter.readers.multi.reader import MultiFormatReader
 from pynxtools.dataconverter.readers.utils import FlattenSettings, flatten_and_replace
 
-from pynxtools_ellips.mock import MockEllips
+from pynxtools_ellips.parsers.woollam import WoollamParser
 
-DEFAULT_HEADER = {"sep": "\t", "skip": 0}
-
+logger = logging.getLogger("pynxtools")
 
 CONVERT_DICT = {
     "unit": "@units",
@@ -46,10 +42,6 @@ CONVERT_DICT = {
     "user": "USER[user]",
     "instrument/angle_of_incidence": "INSTRUMENT[instrument]/angle_of_incidence",
     "instrument/angle_of_incidence/unit": "INSTRUMENT[instrument]/angle_of_incidence/@units",
-    "column_names": "data_collection/column_names",
-    "measured_data_errors": "data_collection/measured_data_errors",
-    "depolarization": "derived_parameters/depolarization",
-    "measured_data": "data_collection/measured_data",
     "data_software": "data_software/program",
     "experiment_identifier/identifier": "IDENTIFIER[experiment_identifier]/IDENTIFIER[identifier]",
     "experiment_identifier/is_persistent": "IDENTIFIER[experiment_identifier]/IS_PERSISTENT[is_persistent]",
@@ -66,7 +58,10 @@ CONVERT_DICT = {
     "beam_source": "beam_TYPE[beam_source]",
 }
 
-CONFIG_KEYS = [
+# Keys that are parser configuration (column layout, plot/derived-parameter
+# naming) rather than NeXus content - excluded from the ELN flattening below,
+# read directly from the raw ELN dict by WoollamParser instead.
+_CONFIG_KEYS = [
     "colnames",
     "derived_parameter_type",
     "err-var",
@@ -85,406 +80,124 @@ REPLACE_NESTED = {
 }
 
 
-def load_header(filename, default):
-    """load the yaml description file, and apply defaults from
-    the default dict for all keys not found from the file.
-    Parameters:
-        filename:           a yaml file containing the definitions
-        default_header:     predefined default values
-    Returns:
-        a dict containing the loaded information
+class EllipsometryReader(MultiFormatReader):
+    """Reads ellipsometry vendor exports (currently: J.A. Woollam
+    VASE/CompleteEASE) plus an ELN yaml into a NeXus template.
     """
 
-    with open(filename, encoding="utf8") as file:
-        header = yaml.safe_load(file)
-
-    clean_header = header
-
-    for key, value in default.items():
-        if key not in clean_header:
-            clean_header[key] = value
-
-    if "sep" in header:
-        clean_header["sep"] = header["sep"].encode("utf-8").decode("unicode_escape")
-
-    return clean_header
-
-
-def load_as_pandas_array(my_file, header):
-    """Load a CSV output file using the header dict.
-    Use the fields: colnames, skip and sep from the header
-    to instruct the csv reader about:
-    colnames    -- column names
-    skip        -- how many lines to skip
-    sep         -- separator character in the file
-    Parameters:
-        my_file  string, file name
-        header   dict header read from a yaml file
-    Returns:
-        A pandas array is returned.
-    """
-    required_parameters = ("colnames", "skip", "sep")
-    for required_parameter in required_parameters:
-        if required_parameter not in header:
-            raise ValueError("colnames, skip and sep are required header parameters!")
-
-    if not os.path.isfile(my_file):
-        raise OSError(f"File not found error: {my_file}")
-
-    whole_data = pd.read_csv(
-        my_file,
-        # use header = None and names to define custom column names
-        header=None,
-        names=header["colnames"],
-        skiprows=header["skip"],
-        delimiter=header["sep"],
-    )
-    return whole_data
-
-
-def populate_header_dict(file_paths):
-    """This function creates and populates the header dictionary
-    reading one or more yaml file.
-    Parameters:
-        file_paths  a list of file paths to be read
-    Returns:
-        a dict merging the content of all files
-    """
-
-    header = DEFAULT_HEADER
-    data_file = None
-
-    for file_path in file_paths:
-        if os.path.splitext(file_path)[1].lower() in [".yaml", ".yml"]:
-            header = load_header(file_path, header)
-            if "filename" not in header:
-                raise KeyError("filename is missing from", file_path)
-            data_file = os.path.join(os.path.split(file_path)[0], header["filename"])
-
-            # if the path is not right, try the path provided directly
-            if not os.path.isfile(data_file):
-                data_file = header["filename"]
-
-    if data_file is None:
-        # Provide fallback: data_file will be resolved later using header['filename']
-        data_file = header.get("filename")
-
-    return header, data_file
-
-
-def populate_template_dict(header, template):
-    """The template dictionary is then populated according to the content of header dictionary."""
-
-    if "calibration_filename" in header:
-        calibration = load_as_pandas_array(header["calibration_filename"], header)
-        for k in calibration:
-            header[f"calibration_{k}"] = calibration[k]
-
-    eln_data_dict = flatten_and_replace(
-        FlattenSettings(
-            dic=header,
-            convert_dict=CONVERT_DICT,
-            replace_nested=REPLACE_NESTED,
-            ignore_keys=CONFIG_KEYS,
-        )
-    )
-    template.update(eln_data_dict)
-
-    return template
-
-
-def header_labels(header, unique_angles):
-    """Define data labels (column names)"""
-
-    if header["Data"]["data_type"] == "Psi/Delta":
-        labels = {"Psi": [], "Delta": []}
-    elif header["Data"]["data_type"] == "tan(Psi)/cos(Delta)":
-        labels = {"tan(Psi)": [], "cos(Delta)": []}
-    else:
-        labels = {}
-        for i in range(1, 5):
-            for j in range(1, 5):
-                labels.update({f"m{i}{j}": []})
-
-    for angle in enumerate(unique_angles):
-        for key, val in labels.items():
-            val.append(f"{key}_{int(angle[1])}deg")
-
-    return labels
-
-
-def mock_function(header):
-    """Mock ellipsometry data"""
-
-    mock_header = MockEllips(header)
-    mock_header.mock_template(header)
-
-    # Defining labels:
-    mock_angles = header["Instrument/angle_of_incidence"]
-
-    labels = header_labels(header, mock_angles)
-
-    for angle in enumerate(header["Instrument/angle_of_incidence"]):
-        for key, val in labels.items():
-            val.append(f"{key}_{int(angle[1])}deg")
-
-    return header, labels
-
-
-def data_set_dims(whole_data):
-    """User defined variables to produce slices of the whole data set"""
-    energy = whole_data["type"].astype(str).values.tolist().count("E")
-    unique_angles, counts = np.unique(
-        whole_data["angle_of_incidence"].to_numpy()[0:energy].astype("int64"),
-        return_counts=True,
-    )
-
-    return unique_angles, counts
-
-
-def parameter_array(whole_data, header, unique_angles, counts):
-    """User defined variables to produce slices of the whole data set"""
-    my_data_array = np.empty([len(unique_angles), 1, counts[0]])
-
-    block_idx = [np.int64(0)]
-    index = 0
-    while index < len(whole_data):
-        index += counts[0]
-        block_idx.append(index)
-
-    # derived parameters:
-    # takes last but one column from the right (skips empty columns):
-    data_index = 1
-    temp = (
-        whole_data[header["colnames"][-data_index]]
-        .to_numpy()[block_idx[-1] - 1]
-        .astype("float64")
-    )
-
-    while math.isnan(temp):
-        temp = (
-            whole_data[header["colnames"][-data_index]]
-            .to_numpy()[block_idx[-1] - 1]
-            .astype("float64")
-        )
-        data_index += 1
-
-    for index in range(len(unique_angles)):
-        my_data_array[index, 0, :] = (
-            whole_data[header["colnames"][-data_index]]
-            .to_numpy()[block_idx[index + 6] : block_idx[index + 7]]
-            .astype("float64")
-        )
-
-    return my_data_array
-
-
-def data_array(whole_data, unique_angles, counts, labels):
-    """User defined variables to produce slices of the whole data set"""
-
-    my_data_array = np.empty([len(unique_angles), len(labels), counts[0]])
-    my_error_array = np.empty([len(unique_angles), len(labels), counts[0]])
-
-    block_idx = [np.int64(0)]
-    index = 0
-    while index < len(whole_data):
-        index += counts[0]
-        block_idx.append(index)
-
-    data_index = 0
-    for key, val in labels.items():
-        for index in range(len(val)):
-            my_data_array[index, data_index, :] = (
-                whole_data[key]
-                .to_numpy()[block_idx[index] : block_idx[index + 1]]
-                .astype("float64")
-            )
-        data_index += 1
-
-    data_index = 0
-    for key, val in labels.items():
-        for index in range(len(val)):
-            my_error_array[index, data_index, :] = (
-                whole_data[f"err.{key}"]
-                .to_numpy()[block_idx[index] : block_idx[index + 1]]
-                .astype("float64")
-            )
-        data_index += 1
-
-    return my_data_array, my_error_array
-
-
-class EllipsometryReader(BaseReader):
-    """An example reader implementation for the DataConverter.
-    Importing metadata from the yaml file based on the last
-    two parts of the key in the application definition.
-    """
-
-    # Whitelist for the NXDLs that the reader supports and can process
     supported_nxdls = ["NXellipsometry"]
 
-    @staticmethod
-    def populate_header_dict_with_datasets(file_paths, is_mock=False):
-        """This is an ellipsometry-specific processing of data.
-        The procedure is the following:
-        - the header dictionary is initialized reading a yaml file
-        - the data are read from header["filename"] and saved in a pandas object
-        - an array is shaped according to application definition in a 5D array (numpy array)
-        - the array is saved in a HDF5 file as a dataset
-        - virtual datasets instances are created in the header dictionary,
-        referencing to data in the created HDF5 file.
-        - the header is finally returned, ready to be parsed in the final template dictionary
-        """
-        header, data_file = populate_header_dict(file_paths)
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
 
-        try:
-            whole_data = load_as_pandas_array(data_file, header)
-        except FileNotFoundError:
-            raise FileNotFoundError(
-                f"Data file not found: tried '{data_file}' and '{header.get('filename')}'"
-            )
-
-        unique_angles, counts = data_set_dims(whole_data)
-
-        labels = header_labels(header, unique_angles)
-
-        header["measured_data"], header["measured_data_errors"] = data_array(
-            whole_data, unique_angles, counts, labels
-        )
-
-        header[header["derived_parameter_type"]] = parameter_array(
-            whole_data, header, unique_angles, counts
-        )
-
-        spectrum_type = header["Data"]["spectrum_type"]
-        if spectrum_type not in header["colnames"]:
-            print("ERROR: spectrum type not found in 'colnames'")
-        header[f"data_collection/NAME_spectrum[{spectrum_type}_spectrum]"] = (
-            whole_data[spectrum_type].to_numpy()[0 : counts[0]].astype("float64")
-        )
-
-        def write_scan_axis(name: str, values: list, units: str):
-            base_path = f"Inc_Det_Angles/{name}"
-            header[f"{base_path}"] = values
-            header[f"{base_path}/@units"] = units
-
-        for axis in ["angle_of_detection", "angle_of_incidence"]:
-            write_scan_axis(axis, unique_angles, "degree")
-
-        # Create mocked ellipsometry data template:
-        if is_mock:
-            header, labels = mock_function(header)
-
-        if "atom_types" not in header["sample"]:
-            header["atom_types"] = extract_atom_types(
-                header["sample"]["chemical_formula"]
-            )
-
-        return header, labels
-
-    def read(
-        self,
-        template: dict | None = None,
-        file_paths: tuple[str] | None = None,
-        objects: tuple[Any] | None = None,
-        is_mock: bool = False,
-    ) -> dict:
-        """Reads data from given file and returns a filled template dictionary.
-        A handlings of virtual datasets is implemented:
-        virtual dataset are created inside the final NeXus file.
-        The template entry is filled with a dictionary containing the following keys:
-        - link: the path of the external data file and the path of desired dataset inside it
-        - shape: numpy array slice object (according to array slice notation)
-        """
-
-        if not file_paths:
-            raise OSError("No input files were given to Ellipsometry Reader.")
-
-        # The header dictionary is filled with entries.
-        header, labels = EllipsometryReader.populate_header_dict_with_datasets(
-            file_paths, is_mock
-        )
-
-        data_list = []
-        for val in labels.values():
-            data_list.append(val)
-
-        # The template dictionary is filled
-        template = populate_template_dict(header, template)
-
-        spectrum_type = header["Data"]["spectrum_type"]
-        if header["Data"]["spectrum_unit"] == "Angstroms":
-            spectrum_unit = "angstrom"
-        else:
-            spectrum_unit = header["Data"]["spectrum_unit"]
-        # MK:: Carola, Ron, Flo, Tamas, Sandor refactor the above-mentioned construct
-        # there has to be a unit parsing control logic already at the level of this reader
-        # because test-data.data has improper units like Angstroms or degrees
-        # the fix above prevents that these incorrect units are get just blindly carried
-        # over into the nxs file and thus causing NOMAD to fail
-        template[f"/ENTRY[entry]/data_collection/AXISNAME[{spectrum_type}]"] = {
-            "link": f"/entry/data_collection/{spectrum_type}_spectrum"
+        # The vendor .dat file's column layout is declared in the ELN yaml
+        # (colnames/sep/skip/filename), so the ELN must be read first.
+        self.processing_order = [".yaml", ".yml", ".dat"]
+        self.extensions = {
+            ".yaml": self.handle_eln_file,
+            ".yml": self.handle_eln_file,
+            ".dat": self.handle_dat_file,
+            ".json": self.set_config_file,
         }
-        template[
-            f"/ENTRY[entry]/data_collection/NAME_spectrum[{spectrum_type}_spectrum]/@units"
-        ] = spectrum_unit
-        # template[
-        #    f"/ENTRY[entry]/data_collection/NAME_spectrum[{spectrum_type}_spectrum]/@long_name"
-        # ] = f"{spectrum_type} ({spectrum_unit})"
-        plot_name = header["plot_name"]
-        for dindx in range(0, len(labels.keys())):
-            for index, key in enumerate(data_list[dindx]):
-                template[f"/ENTRY[entry]/data_collection/DATA[{key}]"] = {
-                    "link": "/entry/data_collection/measured_data",
-                    "shape": np.index_exp[index, dindx, :],
-                }
-                # MK:: Carola, Ron, Flo, Tamas, Sandor refactor the following line
-                # using a proper unit parsing logic
-                template[f"/ENTRY[entry]/data_collection/DATA[{key}]/@units"] = "degree"
-                if dindx == 0 and index == 0:
-                    template[
-                        f"/ENTRY[entry]/data_collection/DATA[{key}]/@long_name"
-                    ] = f"{plot_name} (degree)"
-                template[
-                    f"/ENTRY[entry]/data_collection/FIELDNAME_errors[{key}_errors]"
-                ] = {
-                    "link": "/entry/data_collection/measured_data_errors",
-                    "shape": np.index_exp[index, dindx, :],
-                }
-                # MK:: Carola, Ron, Flo, Tamas, Sandor refactor the following line
-                template[
-                    f"/ENTRY[entry]/data_collection/FIELDNAME_errors[{key}_errors]/@units"
-                ] = "degree"
+        self.config_file = str(Path(__file__).parent / "config" / "config_woollam.json")
 
-        # Define default plot showing Psi and Delta at all angles:
-        template["/@default"] = "entry"
-        template["/ENTRY[entry]/@default"] = "data_collection"
-        template["/ENTRY[entry]/data_collection/@signal"] = f"{data_list[0][0]}"
-        template["/ENTRY[entry]/data_collection/@axes"] = spectrum_type
-        template["/ENTRY[entry]/data_collection/title"] = plot_name
+        self._eln_config: dict[str, Any] = {}
+        self.parser: WoollamParser | None = None
 
-        # if len(data_list[0]) > 1:
-        template["/ENTRY[entry]/data_collection/@auxiliary_signals"] = data_list[0][1:]
-        for index in range(1, len(data_list)):
-            template["/ENTRY[entry]/data_collection/@auxiliary_signals"] += data_list[
-                index
-            ]
+    def set_config_file(self, file_path: Path) -> dict[str, Any]:
+        if self.config_file is not None:
+            logger.info(
+                f"Config file already set. Replaced by the new file {file_path}."
+            )
+        self.config_file = file_path
+        return {}
 
-        template[
-            "/ENTRY[entry]/INSTRUMENT[instrument]/software_TYPE[software_NeXus]/program"
-        ] = "pynxtools"
+    def handle_eln_file(self, file_path: str) -> dict[str, Any]:
+        """Reads the ELN yaml for two purposes: flattening it into NeXus
+        template entries (via CONVERT_DICT/REPLACE_NESTED, same as any
+        pynxtools ELN), and exposing the raw dict as parser configuration
+        (colnames/sep/skip/filename) that WoollamParser needs to read the
+        vendor .dat file - see _CONFIG_KEYS above.
+        """
+        with open(file_path, encoding="utf8") as file:
+            self._eln_config = yaml.safe_load(file)
+
+        eln_data_dict = flatten_and_replace(
+            FlattenSettings(
+                dic=dict(self._eln_config),
+                convert_dict=CONVERT_DICT,
+                replace_nested=REPLACE_NESTED,
+                ignore_keys=_CONFIG_KEYS,
+            )
+        )
+        self.eln_data = eln_data_dict
+        return eln_data_dict
+
+    def handle_dat_file(self, file_path: str) -> dict[str, Any]:
+        if not self._eln_config:
+            raise OSError(
+                "The ELN yaml (with colnames/sep/skip configuration) must be "
+                "provided alongside the vendor .dat file."
+            )
+        if not WoollamParser.is_mainfile(file_path):
+            logger.warning(
+                f"{file_path} does not look like a Woollam VASE/CompleteEASE "
+                "export; skipping."
+            )
+            return {}
+
+        parser = WoollamParser()
+        parser.parse(file_path, header_config=self._eln_config)
+        self.parser = parser
+        self.data = parser.data
+        return {}
+
+    def get_data(self, key: str, path: str) -> Any:
+        return self.data.get(path or key)
+
+    def get_data_dims(self, key: str, path: str) -> list[str]:
+        if self.parser is None:
+            return []
+        return self.parser.data_labels
+
+    def setup_template(self) -> dict[str, Any]:
+        entries = {
+            "/ENTRY[entry]/INSTRUMENT[instrument]/software_TYPE[software_NeXus]/program": "pynxtools",
+            "/ENTRY[entry]/INSTRUMENT[instrument]/software_TYPE[software_NeXus]/program/@url": "https://github.com/FAIRmat-NFDI/pynxtools",
+        }
         try:
-            template[
+            entries[
                 "/ENTRY[entry]/INSTRUMENT[instrument]/software_TYPE[software_NeXus]/program/@version"
             ] = version("pynxtools")
         except PackageNotFoundError:
             pass
-        template[
-            "/ENTRY[entry]/INSTRUMENT[instrument]/software_TYPE[software_NeXus]/program/@url"
-        ] = "https://github.com/FAIRmat-NFDI/pynxtools"
+        return entries
 
-        return template
+    def post_process(self) -> dict[str, Any]:
+        if self.parser is None:
+            return {}
+
+        self.parser.post_process(self.eln_data)
+
+        spectrum_type = self.parser.spectrum_type
+        entries: dict[str, Any] = {
+            f"/ENTRY[entry]/data_collection/NAME_spectrum[{spectrum_type}_spectrum]": self.parser.data[
+                f"{spectrum_type}_spectrum"
+            ],
+            f"/ENTRY[entry]/data_collection/AXISNAME[{spectrum_type}]": {
+                "link": f"/entry/data_collection/{spectrum_type}_spectrum"
+            },
+            f"/ENTRY[entry]/data_collection/NAME_spectrum[{spectrum_type}_spectrum]/@units": self.parser.spectrum_unit,
+            "/@default": "entry",
+            "/ENTRY[entry]/@default": "data_collection",
+            "/ENTRY[entry]/data_collection/@signal": self.parser.data_labels[0],
+            "/ENTRY[entry]/data_collection/@axes": spectrum_type,
+            "/ENTRY[entry]/data_collection/title": self.parser.plot_name,
+            "/ENTRY[entry]/data_collection/@auxiliary_signals": self.parser.data_labels[
+                1:
+            ],
+        }
+        return entries
 
 
-# This has to be set to allow the convert script to use this reader. Set it to "MyDataReader".
 READER = EllipsometryReader

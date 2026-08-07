@@ -4,6 +4,7 @@ Brockhauser
 Carola
 Dobener
 Draxl
+Ellipsometer
 Emminger
 Florian
 Forschungsgemeinschaft
@@ -26,6 +27,7 @@ colnames
 dataconverter
 dindx
 ellips
+ellipsometer
 ellipsometry
 lukaspie
 mainfile
@@ -35,6 +37,7 @@ orcid
 pynx
 pynxtools
 skiprows
+subclassing
 unfindable
 wavlength
 zenodo

@@ -9,9 +9,14 @@ nav:
   - Home: index.md
   - Tutorials:
     - tutorial/installation.md
+    - tutorial/convert_your_first_dataset.md
     - tutorial/standalone.md
     - tutorial/contributing.md
+  - How-tos:
+    - how-tos/convert_data.md
   - Learning:
+    - learn/architecture.md
+    - learn/appdefs.md
     - learn/versioning.md
   - Reference:
     - reference/vase.md

@@ -26,6 +26,8 @@ import yaml
 from pynxtools.dataconverter.readers.multi.reader import MultiFormatReader
 from pynxtools.dataconverter.readers.utils import FlattenSettings, flatten_and_replace
 
+from pynxtools_ellips.parsers.base import _EllipsParser
+from pynxtools_ellips.parsers.sentech import SentechParser
 from pynxtools_ellips.parsers.woollam import WoollamParser
 
 logger = logging.getLogger("pynxtools")
@@ -81,8 +83,9 @@ REPLACE_NESTED = {
 
 
 class EllipsometryReader(MultiFormatReader):
-    """Reads ellipsometry vendor exports (currently: J.A. Woollam
-    VASE/CompleteEASE) plus an ELN yaml into a NeXus template.
+    """Reads ellipsometry vendor exports (J.A. Woollam VASE/CompleteEASE,
+    and - structurally, not yet verified against a real export - Sentech
+    SpectraRay) plus an ELN yaml into a NeXus template.
     """
 
     supported_nxdls = ["NXellipsometry"]
@@ -90,19 +93,21 @@ class EllipsometryReader(MultiFormatReader):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
-        # The vendor .dat file's column layout is declared in the ELN yaml
-        # (colnames/sep/skip/filename), so the ELN must be read first.
-        self.processing_order = [".yaml", ".yml", ".dat"]
+        # The Woollam .dat file's column layout is declared in the ELN yaml
+        # (colnames/sep/skip/filename), so the ELN must be read first. The
+        # Sentech .csv format is self-describing and doesn't need this.
+        self.processing_order = [".yaml", ".yml", ".dat", ".csv"]
         self.extensions = {
             ".yaml": self.handle_eln_file,
             ".yml": self.handle_eln_file,
             ".dat": self.handle_dat_file,
+            ".csv": self.handle_csv_file,
             ".json": self.set_config_file,
         }
         self.config_file = str(Path(__file__).parent / "config" / "config_woollam.json")
 
         self._eln_config: dict[str, Any] = {}
-        self.parser: WoollamParser | None = None
+        self.parser: _EllipsParser | None = None
 
     def set_config_file(self, file_path: Path) -> dict[str, Any]:
         if self.config_file is not None:
@@ -148,6 +153,19 @@ class EllipsometryReader(MultiFormatReader):
 
         parser = WoollamParser()
         parser.parse(file_path, header_config=self._eln_config)
+        self.parser = parser
+        self.data = parser.data
+        return {}
+
+    def handle_csv_file(self, file_path: str) -> dict[str, Any]:
+        if not SentechParser.is_mainfile(file_path):
+            logger.warning(
+                f"{file_path} does not look like a Sentech SpectraRay export; skipping."
+            )
+            return {}
+
+        parser = SentechParser()
+        parser.parse(file_path)
         self.parser = parser
         self.data = parser.data
         return {}

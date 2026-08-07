@@ -19,6 +19,7 @@ Mozumder
 Pepe
 Pielsticker
 Sandor
+Sentech
 Sturm
 Tamas
 Woollam
@@ -36,6 +37,7 @@ nxdls
 orcid
 pynx
 pynxtools
+sentech
 skiprows
 subclassing
 unfindable

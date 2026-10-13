@@ -24,7 +24,6 @@ from typing import Any, cast
 
 import numpy as np
 import pandas as pd
-from pynxtools.dataconverter.helpers import extract_atom_types
 
 from pynxtools_ellips.parsers.base import _EllipsParser
 
@@ -48,13 +47,6 @@ class WoollamParser(_EllipsParser):
 
     supported_file_extensions = (".dat",)
     supported_vendor = "J.A. Woollam Co."
-
-    def __init__(self) -> None:
-        super().__init__()
-        self.data_labels: list[str] = []
-        self.plot_name: str = ""
-        self.spectrum_type: str = ""
-        self.spectrum_unit: str = ""
 
     def matches_file(self, file: Path) -> bool:
         """A VASE/CompleteEASE export declares its acquisition method on the
@@ -130,12 +122,6 @@ class WoollamParser(_EllipsParser):
                 }
                 if dindx == 0 and index == 0:
                     self.data[f"{key}_long_name"] = f"{self.plot_name} (degree)"
-
-    def post_process(self, eln_data: dict[str, Any]) -> None:
-        atom_types_key = "/ENTRY[entry]/SAMPLE[sample]/atom_types"
-        formula_key = "/ENTRY[entry]/SAMPLE[sample]/chemical_formula"
-        if atom_types_key not in eln_data and formula_key in eln_data:
-            self.data["atom_types"] = extract_atom_types(eln_data[formula_key])
 
 
 def _load_as_pandas_array(my_file, header):

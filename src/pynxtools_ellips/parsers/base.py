@@ -21,6 +21,8 @@ from abc import ABC, abstractmethod
 from pathlib import Path
 from typing import Any, ClassVar
 
+from pynxtools.dataconverter.helpers import extract_atom_types
+
 __all__: list[str] = []
 
 
@@ -33,6 +35,11 @@ class _EllipsParser(ABC):
     any scalar values needed by the reader's config file via the ``@data:``
     token. ``EllipsometryReader`` reads ELN metadata separately and passes it
     to ``post_process`` for any values that depend on it.
+
+    ``data_labels``/``plot_name``/``spectrum_type``/``spectrum_unit`` are part
+    of the contract (not just ``self.data`` content) because
+    ``EllipsometryReader.get_data_dims``/``post_process`` read them directly,
+    regardless of which vendor parser produced them.
     """
 
     supported_file_extensions: ClassVar[tuple[str, ...]] = ()
@@ -41,6 +48,10 @@ class _EllipsParser(ABC):
     def __init__(self) -> None:
         self.file: Path | None = None
         self.data: dict[str, Any] = {}
+        self.data_labels: list[str] = []
+        self.plot_name: str = ""
+        self.spectrum_type: str = ""
+        self.spectrum_unit: str = ""
 
     @classmethod
     def is_extension_supported(cls, file: Path) -> bool:
@@ -102,6 +113,11 @@ class _EllipsParser(ABC):
 
     def post_process(self, eln_data: dict[str, Any]) -> None:
         """Derive fields that need ELN context, after the ELN file has been
-        read. Default no-op; override per-parser. Mutates self.data in
-        place."""
-        return None
+        read. Default: fill in atom_types from the ELN's chemical_formula if
+        the ELN didn't already provide one - vendor-agnostic, so every
+        parser gets it for free; override per-parser for anything more
+        specific. Mutates self.data in place."""
+        atom_types_key = "/ENTRY[entry]/SAMPLE[sample]/atom_types"
+        formula_key = "/ENTRY[entry]/SAMPLE[sample]/chemical_formula"
+        if atom_types_key not in eln_data and formula_key in eln_data:
+            self.data["atom_types"] = extract_atom_types(eln_data[formula_key])

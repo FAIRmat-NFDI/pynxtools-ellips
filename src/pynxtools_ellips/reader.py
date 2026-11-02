@@ -35,7 +35,6 @@ CONVERT_DICT = {
     "detector": "detector_TYPE[detector_ccd]",
     "Data": "data_collection",
     "derived_parameters": "derived_parameters",
-    "environment": "environment_conditions",
     "instrument": "INSTRUMENT[instrument]",
     "sample": "SAMPLE[sample]",
     "sample_stage": "sample_stage",

@@ -101,6 +101,7 @@ class EllipsometryReader(MultiFormatReader):
         self.config_file = str(Path(__file__).parent / "config" / "config_woollam.json")
 
         self._eln_config: dict[str, Any] = {}
+        self.data: dict[str, Any] = {}
         self.parser: WoollamParser | None = None
 
     def set_config_file(self, file_path: Path) -> dict[str, Any]:
@@ -174,8 +175,11 @@ class EllipsometryReader(MultiFormatReader):
 
     def post_process(self) -> dict[str, Any]:
         if self.parser is None:
-            return {}
-
+            raise ValueError(
+                "No readable Woollam .dat file was given. The ellips reader "
+                "needs the measurement file together with the ELN yaml."
+            )
+        
         self.parser.post_process(self.eln_data)
 
         spectrum_type = self.parser.spectrum_type

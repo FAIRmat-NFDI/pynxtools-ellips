@@ -24,6 +24,7 @@ from typing import Any
 
 import pytest
 from pynxtools.dataconverter.convert import get_reader
+from pynxtools.dataconverter.template import Template
 from pynxtools.testing.nexus_conversion import ReaderTest
 
 import pynxtools_ellips.reader as reader_module
@@ -136,3 +137,13 @@ def test_convert_dict_has_no_duplicate_keys():
             break
     else:
         pytest.fail("CONVERT_DICT not found")
+
+
+def test_read_without_dat_file_raises_clear_error():
+    """
+    Only an ELN file and no .dat file must give a clear error
+    (Bug B16 in https://github.com/FAIRmat-NFDI/pynxtools-plugin-audit/blob/main/pynxtools-unification/FINDINGS.md).
+    """
+    eln_file = os.path.join(os.path.dirname(__file__), "data", "eln_data.yaml")
+    with pytest.raises(ValueError, match=r"\.dat file"):
+        READER_CLASS().read(template=Template(), file_paths=(eln_file,))

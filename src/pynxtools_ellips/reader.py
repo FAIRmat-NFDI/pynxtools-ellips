@@ -179,7 +179,7 @@ class EllipsometryReader(MultiFormatReader):
                 "No readable Woollam .dat file was given. The ellips reader "
                 "needs the measurement file together with the ELN yaml."
             )
-        
+
         self.parser.post_process(self.eln_data)
 
         spectrum_type = self.parser.spectrum_type

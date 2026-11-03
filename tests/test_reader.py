@@ -17,12 +17,16 @@
 #
 """Tests for the pynxtools reader plugin."""
 
+import ast
+import inspect
 import os
 from typing import Any
 
 import pytest
 from pynxtools.dataconverter.convert import get_reader
 from pynxtools.testing.nexus_conversion import ReaderTest
+
+import pynxtools_ellips.reader as reader_module
 
 READER_NAME = "ellips"
 READER_CLASS = get_reader(READER_NAME)
@@ -113,3 +117,22 @@ def test_nexus_conversion(  # noqa: PLR0917
     test.check_reproducibility_of_nexus(
         ignore_lines=ignore_lines, ignore_sections=ignore_sections
     )
+
+
+def test_convert_dict_has_no_duplicate_keys():
+    """
+    A duplicated key in CONVERT_DICT silently drops the first mapping
+    (Bug B15 in https://github.com/FAIRmat-NFDI/pynxtools-plugin-audit/blob/main/pynxtools-unification/FINDINGS.md).
+    """
+    tree = ast.parse(inspect.getsource(reader_module))
+    for node in ast.walk(tree):
+        if (
+            isinstance(node, ast.Assign)
+            and any(getattr(t, "id", None) == "CONVERT_DICT" for t in node.targets)
+            and isinstance(node.value, ast.Dict)
+        ):
+            keys = [k.value for k in node.value.keys if isinstance(k, ast.Constant)]
+            assert len(keys) == len(set(keys))
+            break
+    else:
+        pytest.fail("CONVERT_DICT not found")
